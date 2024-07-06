@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INR to NPR Calculation</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="number"] {
+        width: 100px;
+    }
+</style>
+</head>
+<body>
+    <h2>INR to NPR Calculation</h2>
+    <form id="calculationForm">
+        <div>
+            <label for="inrAmount">Enter INR Amount:</label>
+            <input type="number" id="inrAmount" name="inrAmount" min="0" step="0.01" required>
+        </div>
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <script>
+        // Function to calculate the total cost
+        function calculate() {
+            // Get the input value
+            var inrAmount = parseFloat(document.getElementById('inrAmount').value);
+
+            // Check if the input is a valid number
+            if (isNaN(inrAmount)) {
+                alert('Please enter a valid number for INR Amount.');
+                return;
+            }
+
+            // Conversion rate from INR to NPR
+            var conversionRate = 1.60;
+
+            // Calculate NPR equivalent
+            var nprEquivalent = inrAmount * conversionRate;
+
+            // Add 3% service charge
+            var serviceCharge = nprEquivalent * 0.03;
+            var totalWithServiceCharge = nprEquivalent + serviceCharge;
+
+            // Calculate 1% Import Duty
+            var importDuty = totalWithServiceCharge * 0.01;
+
+            // Calculate 13% VAT
+            var vat = totalWithServiceCharge * 0.13;
+
+            // Total amount with VAT
+            var totalWithVAT = totalWithServiceCharge + importDuty + vat;
+
+            // Additional calculations
+            var additional1 = totalWithVAT + 280;
+            var additional2 = totalWithVAT + 390;
+
+            // Display the result
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = `
+                <p><strong>INR Amount:</strong> ${inrAmount.toFixed(2)}</p>
+                <p><strong>NPR Equivalent:</strong> ${nprEquivalent.toFixed(2)}</p>
+                <p><strong>Total with 3% Service Charge:</strong> ${totalWithServiceCharge.toFixed(2)}</p>
+                <p><strong>Import Duty (1%):</strong> ${importDuty.toFixed(2)}</p>
+                <p><strong>VAT (13%):</strong> ${vat.toFixed(2)}</p>
+                <p><strong>Total with VAT:</strong> ${totalWithVAT.toFixed(2)}</p>
+                <p><strong>Total with VAT + Int'l Shipping 0.5KG = रु. 280:</strong> ${additional1.toFixed(2)}</p>
+                <p><strong>Total with VAT + Int'l Shipping 1KG = रु.390:</strong> ${additional2.toFixed(2)}</p>
+            `;
+        }
+
+        // Add event listener for "Enter" key press
+        document.getElementById("inrAmount").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default behavior of the Enter key
+                calculate(); // Calculate when Enter is pressed
+            }
+        });
+    </script>
+<!-- Static App Form Collection Script -->
+<script src="https://static.app/js/static-forms.js" type="text/javascript"></script>
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>
