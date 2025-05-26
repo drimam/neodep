@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .link-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .link {
+            width: 150px;
+            height: 150px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        .link:nth-of-type(1) {
+            background-color: #f0f0f0; /* Light Gray */
+        }
+        .link:nth-of-type(2) {
+            background-color: #9bd2d3; /* Light Blue */
+        }
+        .link:nth-of-type(3) {
+            background-color: #f7c6c7; /* Light Pink */
+        }
+        .link:nth-of-type(4) {
+            background-color: #d3e298; /* Light Green */
+        }
+        .link:hover {
+            background-color: #e0e0e0;
+        }
+        .link a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <h1>Manual Calculator Homepage</h1>
+    <div class="link-container">
+        <div class="row">
+            <div class="link"><a href="https://drimam.github.io/neodep/cost13.html">13%</a></div>
+            <div class="link"><a href="https://drimam.github.io/neodep/cost18.html">18%</a></div>
+        </div>
+        <div class="row">
+            <div class="link"><a href="https://drimam.github.io/neodep/cost23.html">23%</a></div>
+            <div class="link"><a href="https://drimam.github.io/neodep/cost28.html">28%</a></div>
+        </div>
+    </div>
+</body>
+</html>
