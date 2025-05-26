@@ -1,77 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        .link-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-        .row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .link {
-            width: 150px;
-            height: 150px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            text-align: center;
-            text-decoration: none;
-            color: #333;
-            transition: background-color 0.3s ease;
-        }
-        .link:nth-of-type(1) {
-            background-color: #f0f0f0; /* Light Gray */
-        }
-        .link:nth-of-type(2) {
-            background-color: #9bd2d3; /* Light Blue */
-        }
-        .link:nth-of-type(3) {
-            background-color: #f7c6c7; /* Light Pink */
-        }
-        .link:nth-of-type(4) {
-            background-color: #d3e298; /* Light Green */
-        }
-        .link:hover {
-            background-color: #e0e0e0;
-        }
-        .link a {
-            text-decoration: none;
-            color: inherit;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Import Cost Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .breakdown-line {
+      display: block;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .breakdown-line > span {
+      display: inline-block;
+      width: 50%;
+    }
+    .breakdown-line > span:last-child {
+      text-align: right;
+      float: right;
+    }
+  </style>
 </head>
-<body>
-    <h1>Manual Calculator Homepage</h1>
-    <div class="link-container">
-        <div class="row">
-            <div class="link"><a href="https://drimam.github.io/neodep/cost13.html">13%</a></div>
-            <div class="link"><a href="https://drimam.github.io/neodep/cost18.html">18%</a></div>
-        </div>
-        <div class="row">
-            <div class="link"><a href="https://drimam.github.io/neodep/cost23.html">23%</a></div>
-            <div class="link"><a href="https://drimam.github.io/neodep/cost28.html">28%</a></div>
-        </div>
+<body class="bg-gray-50 min-h-screen p-3 md:p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6">
+    <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">Import Cost Calculator</h1>
+
+    <!-- Tax Slabs -->
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab:</label>
+      <div class="grid grid-cols-2 gap-2" id="taxSlabContainer">
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
+          <input type="radio" name="taxSlab" value="13" class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
+          13% (Duty 0%)
+        </label>
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
+          <input type="radio" name="taxSlab" value="15" class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
+          15% (Duty 2%)
+        </label>
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm bg-blue-50 border-blue-600">
+          <input type="radio" name="taxSlab" value="23" checked class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-blue-600 flex items-center justify-center">
+            <div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
+          </span>
+          23% (Duty 10%)
+        </label>
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
+          <input type="radio" name="taxSlab" value="28" class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
+          28% (Duty 15%)
+        </label>
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
+          <input type="radio" name="taxSlab" value="18" class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
+          18% (Duty 5%)
+        </label>
+        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
+          <input type="radio" name="taxSlab" value="30" class="sr-only">
+          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
+          30% (Duty 17%)
+        </label>
+      </div>
     </div>
+
+    <!-- Input Section -->
+    <div class="space-y-4 mb-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">INR Amount:</label>
+        <input type="number" id="inrAmount"
+               class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"
+               placeholder="Enter INR amount">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Brand:</label>
+        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
+          <option value="0">Zero Fees</option>
+          <option value="0" selected>Amazon</option>
+          <option value="13">Flipkart (+₹13)</option>
+          <option value="30">Myntra (+₹30)</option>
+          <option value="58">Ajio (+₹58)</option>
+          <option value="29">Nykaa (+₹29)</option>
+          <option value="99">Others (+₹99)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Weight:</label>
+        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
+          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">-</button>
+          <div class="flex-1 text-center">
+            <span id="weightDisplay" class="text-lg font-bold">0.5</span>
+            <span class="text-gray-600 text-sm">kg</span>
+          </div>
+          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
+      <h3 class="text-base font-bold mb-2 border-b pb-1">*Import Cost Breakdown*</h3><br>
+      <div class="breakdown-line">
+        <span>Item Price:</span>
+        <span>₹<span id="itemPrice">0.00</span></span>
+      </div>
+      <div class="breakdown-line" id="brandFeeLine" style="display: none;">
+        <span id="brandLabel"></span>
+        <span>₹<span id="brandFee">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line">
+        <span>NPR Equivalent (1.6):</span>
+        <span>रु <span id="nprEquivalent">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line">
+        <span>Service Charge (3%):</span>
+        <span>रु <span id="serviceCharge">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line">
+        <span>Import Duty (<span id="dutyPercent">0</span>%):</span>
+        <span>रु <span id="importDuty">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line">
+        <span>VAT (13%):</span>
+        <span>रु <span id="vat">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold">
+        <span>Subtotal:</span>
+        <span>रु <span id="subtotal">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line text-blue-600">
+        <span>Shipping (<span id="shippingWeight">0.5</span> kg):</span>
+        <span>रु <span id="shipping">0.00</span></span>
+      </div><br>
+      <div class="breakdown-line pt-2 border-t border-gray-200 font-bold text-base bg-blue-50 p-4 -m-4 mt-2">
+        <span>*Total Payable*: </span>
+        <span> रु <span id="finalTotal">0.00</span></span>
+      </div><br>
+    </div>
+  </div>
+
+  <script>
+    const exchangeRate = 1.6;
+    let weight = 0.5;
+
+    function calculateShipping(w) {
+      if(w === 0.5) return 280;
+      if(w === 1) return 390;
+      const extraHalfKgs = Math.ceil((w - 1) / 0.5);
+      return 310 + (extraHalfKgs * 155);
+    }
+
+    function calculateTotal() {
+      const inrAmount = parseFloat(document.getElementById('inrAmount').value) || 0;
+      const brand = document.getElementById('brand');
+      const brandFee = parseInt(brand.value) || 0;
+      const brandName = brand.options[brand.selectedIndex].text.split(' ')[0];
+      const slab = document.querySelector('input[name="taxSlab"]:checked').value;
+      const taxRates = {13:0,15:2,18:5,23:10,28:15,30:17};
+      const importDutyRate = taxRates[slab] / 100;
+
+      const brandFeeLine = document.getElementById('brandFeeLine');
+      if (brandFee > 0) {
+        brandFeeLine.style.display = 'block';
+        document.getElementById('brandLabel').textContent = `${brandName} Platform Fees:`;
+        document.getElementById('brandFee').textContent = brandFee.toFixed(2);
+      } else {
+        brandFeeLine.style.display = 'none';
+      }
+
+      const totalINR = inrAmount + brandFee;
+      document.getElementById('itemPrice').textContent = inrAmount.toFixed(2);
+
+      const nprEquivalent = totalINR * exchangeRate;
+      const serviceCharge = nprEquivalent * 0.03;
+      const withService = nprEquivalent + serviceCharge;
+      const importDuty = withService * importDutyRate;
+      const vat = withService * 0.13;
+      const subtotal = withService + importDuty + vat;
+      const shipping = calculateShipping(weight);
+      const total = subtotal + shipping;
+
+      document.getElementById('nprEquivalent').textContent = nprEquivalent.toFixed(2);
+      document.getElementById('serviceCharge').textContent = serviceCharge.toFixed(2);
+      document.getElementById('importDuty').textContent = importDuty.toFixed(2);
+      document.getElementById('vat').textContent = vat.toFixed(2);
+      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+      document.getElementById('shipping').textContent = shipping.toFixed(2);
+      document.getElementById('finalTotal').textContent = total.toFixed(2);
+      document.getElementById('dutyPercent').textContent = taxRates[slab];
+      document.getElementById('shippingWeight').textContent = weight;
+    }
+
+    document.getElementById('incrementWeight').addEventListener('click', () => {
+      weight = Math.min(weight + 0.5, 20);
+      document.getElementById('weightDisplay').textContent = weight;
+      calculateTotal();
+    });
+
+    document.getElementById('decrementWeight').addEventListener('click', () => {
+      weight = Math.max(0.5, weight - 0.5);
+      document.getElementById('weightDisplay').textContent = weight;
+      calculateTotal();
+    });
+
+    document.querySelectorAll('input, select, #inrAmount').forEach(el => {
+      el.addEventListener('input', calculateTotal);
+    });
+
+    document.querySelectorAll('.tax-option input').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.querySelectorAll('.tax-option').forEach(option => {
+          option.classList.remove('bg-blue-50', 'border-blue-600');
+          const radioSpan = option.querySelector('.radio-custom');
+          radioSpan.classList.remove('border-blue-600');
+          radioSpan.innerHTML = '';
+        });
+
+        if(this.checked) {
+          const parent = this.closest('.tax-option');
+          parent.classList.add('bg-blue-50', 'border-blue-600');
+          const radioSpan = parent.querySelector('.radio-custom');
+          radioSpan.classList.add('border-blue-600');
+          radioSpan.innerHTML = '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>';
+        }
+      });
+    });
+
+    calculateTotal();
+  </script>
 </body>
 </html>
