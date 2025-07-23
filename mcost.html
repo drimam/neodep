@@ -78,7 +78,7 @@
         <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
           <option value="0">Zero Fees</option>
           <option value="0" selected>Amazon</option>
-          <option value="13">Flipkart (+₹13)</option>
+          <option value="13">Flipkart (+₹14)</option>
           <option value="30">Myntra (+₹30)</option>
           <option value="58">Ajio (+₹58)</option>
           <option value="29">Nykaa (+₹29)</option>
@@ -194,7 +194,7 @@
     }
 
     document.getElementById('incrementWeight').addEventListener('click', () => {
-      weight = Math.min(weight + 0.5, 20);
+      weight = Math.min(weight + 0.5, 50);
       document.getElementById('weightDisplay').textContent = weight;
       calculateTotal();
     });
