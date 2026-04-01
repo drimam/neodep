@@ -1,237 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Import Cost Calculator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .breakdown-line {
-      display: block;
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-    .breakdown-line > span {
-      display: inline-block;
-      width: 50%;
-    }
-    .breakdown-line > span:last-child {
-      text-align: right;
-      float: right;
-    }
-  </style>
-</head>
-<body class="bg-gray-50 min-h-screen p-3 md:p-6">
-  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6">
-    <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">Import Cost Calculator</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Import Cost Calculator
+    </title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <style>
+      .breakdown-line { display: block; margin-bottom: 1.5rem; overflow: hidden; }
+    .breakdown-line > span { display: inline-block; width: 50%; }
+    .breakdown-line > span:last-child { text-align: right; float: right; }
+    
+    .mode-toggle { background: #f3f4f6; border-radius: 2rem; padding: 2px; display: inline-flex; }
+    .mode-option { padding: 6px 16px; border-radius: 2rem; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; font-weight: 500; }
+    .mode-option.active { background: #3b82f6; color: white; }
+    .tax-slab-disabled { opacity: 0.6; pointer-events: none; }
+    
+    .product-card { cursor: pointer; transition: all 0.15s; border: 2px solid #e5e7eb; }
+    .product-card.selected { background-color: #eff6ff; border-color: #3b82f6; }
+    .product-card .custom-radio { width: 1rem; height: 1rem; border: 2px solid #d1d5db; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem; }
+    .product-card.selected .custom-radio { border-color: #3b82f6; background-color: #3b82f6; }
+    .product-card.selected .custom-radio::after { content: ''; width: 0.5rem; height: 0.5rem; background-color: white; border-radius: 50%; display: block; }
 
-    <!-- Tax Slabs -->
-    <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab:</label>
-      <div class="grid grid-cols-2 gap-2" id="taxSlabContainer">
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
-          <input type="radio" name="taxSlab" value="13" class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
-          13% (Duty 0%)
-        </label>
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
-          <input type="radio" name="taxSlab" value="15" class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
-          15% (Duty 2%)
-        </label>
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm bg-blue-50 border-blue-600">
-          <input type="radio" name="taxSlab" value="23" checked class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-blue-600 flex items-center justify-center">
-            <div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
-          </span>
-          23% (Duty 10%)
-        </label>
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
-          <input type="radio" name="taxSlab" value="28" class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
-          28% (Duty 15%)
-        </label>
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
-          <input type="radio" name="taxSlab" value="18" class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
-          18% (Duty 5%)
-        </label>
-        <label class="tax-option flex items-center p-2 rounded-lg border cursor-pointer text-sm">
-          <input type="radio" name="taxSlab" value="30" class="sr-only">
-          <span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 border-gray-300"></span>
-          30% (Duty 17%)
-        </label>
-      </div>
-    </div>
-
-    <!-- Input Section -->
-    <div class="space-y-4 mb-6">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">INR Amount:</label>
-        <input type="number" id="inrAmount"
-               class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"
-               placeholder="Enter INR amount">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Brand:</label>
-        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-          <option value="0">Zero Fees</option>
-          <option value="10" selected>Amazon (+₹15)</option>
-          <option value="14">Flipkart (+₹17)</option>
-          <option value="30">Myntra (+₹33)</option>
-          <option value="58">Ajio (+₹58)</option>
-          <option value="29">Nykaa (+₹29)</option>
-          <option value="29">Zara (+₹290)</option>
-          <option value="29">Uniqlo (+₹290)</option>
-          <option value="99">Others (+₹99)</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Weight:</label>
-        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">-</button>
-          <div class="flex-1 text-center">
-            <span id="weightDisplay" class="text-lg font-bold">0.5</span>
-            <span class="text-gray-600 text-sm">kg</span>
+    .hidden-section { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; opacity: 0; }
+    .hidden-section.show { max-height: 500px; opacity: 1; margin-bottom: 1rem; }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen p-3 md:p-6">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6 mb-8">
+      <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">
+        Import Cost Calculator
+      </h1>
+      <div class="mb-6 flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-700">        Tax Mode:
+</span>
+        <div class="mode-toggle" id="modeToggle">
+          <div class="mode-option active" data-mode="auto">
+            Auto (Product-based)
           </div>
-          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">+</button>
+          <div class="mode-option" data-mode="manual">
+            Manual
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Results -->
-    <div class="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
-      <h3 class="text-base font-bold mb-2 border-b pb-1">*Import Cost Breakdown*</h3><br>
-      <div class="breakdown-line">
-        <span>Item Price:</span>
-        <span>₹<span id="itemPrice">0.00</span></span>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Product Category:
+        </label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="productTypeContainer">
+        </div>
       </div>
-      <div class="breakdown-line" id="brandFeeLine" style="display: none;">
-        <span id="brandLabel"></span>
-        <span>₹<span id="brandFee">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line">
-        <span>NPR Equivalent (1.6):</span>
-        <span>रु <span id="nprEquivalent">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line">
-        <span>Service Charge (3%):</span>
-        <span>रु <span id="serviceCharge">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line">
-        <span>Import Duty (<span id="dutyPercent">0</span>%):</span>
-        <span>रु <span id="importDuty">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line">
-        <span>VAT (13%):</span>
-        <span>रु <span id="vat">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold">
-        <span>Subtotal:</span>
-        <span>रु <span id="subtotal">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line text-blue-600">
-        <span>Shipping (<span id="shippingWeight">0.5</span> kg):</span>
-        <span>रु <span id="shipping">0.00</span></span>
-      </div><br>
-      <div class="breakdown-line pt-2 border-t border-gray-200 font-bold text-base bg-blue-50 p-4 -m-4 mt-2">
-        <span>*Total Payable*: </span>
-        <span> रु <span id="finalTotal">0.00</span></span>
-      </div><br>
-    </div>
-  </div>
+      <div class="mb-6" id="taxSlabSection">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Tax Slab:
+        </label>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="taxSlabContainer">
+        </div>
+      </div>
 
-  <script>
-    const exchangeRate = 1.6;
-    let weight = 0.5;
+      <div class="mb-4">
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-sm font-medium text-gray-700">Item Pricing Mode:</label>
+          <button id="toggleMultiBtn" class="text-sm text-blue-600 font-semibold hover:text-blue-700 focus:outline-none">
+            + Add Multiple Items
+          </button>
+        </div>
+        
+        <div id="multiItemSection" class="hidden-section bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <p class="text-xs text-blue-700 mb-3">Enter the individual INR price of each item. They will be added up automatically.</p>
+          <div id="itemsContainer" class="space-y-2 mb-3">
+            <div class="flex items-center gap-2">
+              <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
+              <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
+            </div>
+          </div>
+          <button id="addItemBtn" class="w-full py-2 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
+            + Add Another Item
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Total INR Amount</label>
+          <input type="number" id="inrAmount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter INR amount" />
+        </div>
+        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
+        </select>
+        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
+          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+            -
+          </button>
+          <div class="flex-1 text-center">
+            <span id="weightDisplay" class="text-lg font-bold">            0.5
+</span>
+            kg
+          </div>
+          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+            +
+          </button>
+        </div>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-4 space-y-0 text-sm">
+        <h3 class="text-base font-bold mb-6 border-b pb-1">
+          *Import Cost Breakdown*
+        </h3>
+        <div class="breakdown-line">
+          <div class="breakdown-line">
+            <span>            Item Price:
+</span>
+            <span>            ₹
+            <span id="itemPrice">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line" id="brandFeeLine" style="display: none;">
+            <span id="brandLabel"></span>
+            <span>            ₹
+            <span id="brandFee">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            NPR Equivalent (1.6):
+</span>
+            <span>            रु
+            <span id="nprEquivalent">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            Service Charge (3%):
+</span>
+            <span>            रु
+            <span id="serviceCharge">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            Import Duty (
+            <span id="dutyPercent">            0
+</span>
+            %):
+</span>
+            <span>            रु
+            <span id="importDuty">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            VAT (13%):
+</span>
+            <span>            रु
+            <span id="vat">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold">
+            <span>            Subtotal:
+</span>
+            <span>            रु
+            <span id="subtotal">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line text-blue-600">
+            <span>            Shipping (
+            <span id="shippingWeight">            0.5
+</span>
+            kg):
+</span>
+            <span>            रु
+            <span id="shipping">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line pt-4 border-t border-gray-300 font-bold text-base bg-blue-50 p-4 -m-4 mt-4">
+            <span>            *Total Payable*:
+</span>
+            <span>            रु
+            <span id="finalTotal">            0
+</span>
+</span>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-2xl mx-auto bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-12">
+        <div id="shareText" class="bg-white p-4 rounded-lg border border-blue-100 text-gray-700 text-sm whitespace-pre-wrap">Dear customer,
+After Discount Offers Applied ✅
+
+It will cost NPR. <span id="copyTotal">0</span>/- only
+Including all charges and international shipping fees.
+
+*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*</div>
+        <button id="copyBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all active:scale-95 shadow-md">
+          Copy to Clipboard
+        </button>
+      </div>
+      <script>
+        const EXCHANGE_RATE = 1.6, VAT_RATE = 0.13, SERVICE_RATE = 0.03, DUTY_MAP = { 13:0, 15:2, 18:5, 23:10, 28:15, 30:17 };
+    
+    const nf = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+    const nfd = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const PRODUCT_TYPES = [
+      { id: "clothing", label: "👕 Clothing", conditional: true },
+      { id: "mobileAccessories", label: "📱 Mobile Accessories", conditional: true },
+      { id: "shoes", label: "👟 Shoes", conditional: true },
+      { id: "gymSup", label: "💪 Gym Sup.", baseSlab: 23, conditional: false },
+      { id: "books", label: "📚 Books", baseSlab: 13, conditional: false },
+      { id: "toys", label: "🧸 Toys", baseSlab: 23, conditional: false },
+      { id: "homeProducts", label: "🏠 Home Products", baseSlab: 23, conditional: false },
+      { id: "largeItems", label: "📦Large Items", baseSlab: 28, conditional: false }
+    ];
+    
+    const BRANDS = [
+      { name: "Amazon", fee: 10 }, { name: "Zero Fees", fee: 0 }, { name: "Flipkart", fee: 17 }, 
+      { name: "Myntra", fee: 33 }, { name: "Ajio", fee: 58 }, { name: "Nykaa", fee: 29 }, 
+      { name: "Zara", fee: 290 }, { name: "Uniqlo", fee: 290 }, { name: "H&M", fee: 0 }, 
+      { name: "Decathlon", fee: 99 }, { name: "Meesho", fee: 0, forceSlab: 28 }, { name: "Others", fee: 99 }
+    ];
+
+    let weight = 0.5, currentProductType = "clothing", taxMode = "auto", manualSelectedSlab = 23;
 
     function calculateShipping(w) {
-      if(w === 0.5) return 280;
-      if(w === 1) return 390;
-      const extraHalfKgs = Math.ceil((w - 1) / 0.5);
-      return 310 + (extraHalfKgs * 155);
+      if (w === 0.5) return 280;
+      if (w === 1) return 390;
+      return 310 + (Math.ceil((w - 1) / 0.5) * 155);
     }
 
     function calculateTotal() {
-      const inrAmount = parseFloat(document.getElementById('inrAmount').value) || 0;
-      const brand = document.getElementById('brand');
-      const brandFee = parseInt(brand.value) || 0;
-      const brandName = brand.options[brand.selectedIndex].text.split(' ')[0];
-      const slab = document.querySelector('input[name="taxSlab"]:checked').value;
-      const taxRates = {13:0,15:2,18:5,23:10,28:15,30:17};
-      const importDutyRate = taxRates[slab] / 100;
+      const inr = parseFloat(document.getElementById('inrAmount').value) || 0;
+      const brandOpt = document.getElementById('brand').options[document.getElementById('brand').selectedIndex];
+      const brandFee = parseFloat(brandOpt.value) || 0;
+      const forceSlab = brandOpt.getAttribute('data-force-slab') ? parseInt(brandOpt.getAttribute('data-force-slab')) : null;
 
-      const brandFeeLine = document.getElementById('brandFeeLine');
-      if (brandFee > 0) {
-        brandFeeLine.style.display = 'block';
-        document.getElementById('brandLabel').textContent = `${brandName} Platform Fees:`;
-        document.getElementById('brandFee').textContent = brandFee.toFixed(2);
+      const isMultiItemOpen = document.getElementById('multiItemSection').classList.contains('show');
+
+      // Applied your custom rule here: Forces 23 if Multi-Item is open and category is clothing.
+      let slab;
+      if (forceSlab) {
+        slab = forceSlab;
+      } else if (taxMode === "auto") {
+        if (PRODUCT_TYPES.find(p=>p.id===currentProductType).conditional) {
+          if (isMultiItemOpen && currentProductType === "clothing") {
+            slab = 23; 
+          } else {
+            slab = inr >= 999 ? 18 : 23;
+          }
+        } else {
+          slab = PRODUCT_TYPES.find(p=>p.id===currentProductType).baseSlab || 23;
+        }
       } else {
-        brandFeeLine.style.display = 'none';
+        slab = manualSelectedSlab;
       }
+      
+      const duty = (DUTY_MAP[slab] || 0) / 100;
+      const npr = (inr + brandFee) * EXCHANGE_RATE;
+      const service = npr * SERVICE_RATE;
+      const impDuty = (npr + service) * duty;
+      const vat = (npr + service) * VAT_RATE;
+      const subtotal = npr + service + impDuty + vat;
+      const ship = calculateShipping(weight);
+      const total = subtotal + ship;
 
-      const totalINR = inrAmount + brandFee;
-      document.getElementById('itemPrice').textContent = inrAmount.toFixed(2);
+      document.getElementById('dutyPercent').innerText = DUTY_MAP[slab];
+      document.getElementById('itemPrice').innerText = nfd.format(inr);
+      document.getElementById('nprEquivalent').innerText = nfd.format(npr);
+      document.getElementById('serviceCharge').innerText = nfd.format(service);
+      document.getElementById('importDuty').innerText = nfd.format(impDuty);
+      document.getElementById('vat').innerText = nfd.format(vat);
+      document.getElementById('subtotal').innerText = nfd.format(subtotal);
+      document.getElementById('shipping').innerText = nfd.format(ship);
+      document.getElementById('finalTotal').innerText = nfd.format(total);
+      
+      document.getElementById('shippingWeight').innerText = weight;
+      
+      const shareTextContainer = document.getElementById('shareText');
+      
+      if (isMultiItemOpen) {
+        shareTextContainer.innerHTML = `Dear customer,
+Combined Shipping Discount Offers Applied Only For You 🫶🏻🫰🏻✅
 
-      const nprEquivalent = totalINR * exchangeRate;
-      const serviceCharge = nprEquivalent * 0.03;
-      const withService = nprEquivalent + serviceCharge;
-      const importDuty = withService * importDutyRate;
-      const vat = withService * 0.13;
-      const subtotal = withService + importDuty + vat;
-      const shipping = calculateShipping(weight);
-      const total = subtotal + shipping;
+It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
+Including all charges and international shipping fees.
 
-      document.getElementById('nprEquivalent').textContent = nprEquivalent.toFixed(2);
-      document.getElementById('serviceCharge').textContent = serviceCharge.toFixed(2);
-      document.getElementById('importDuty').textContent = importDuty.toFixed(2);
-      document.getElementById('vat').textContent = vat.toFixed(2);
-      document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-      document.getElementById('shipping').textContent = shipping.toFixed(2);
-      document.getElementById('finalTotal').textContent = total.toFixed(2);
-      document.getElementById('dutyPercent').textContent = taxRates[slab];
-      document.getElementById('shippingWeight').textContent = weight;
+*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
+      } else {
+        shareTextContainer.innerHTML = `Dear customer,
+After Discount Offers Applied ✅
+
+It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
+Including all charges and international shipping fees.
+
+*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
+      }
+      
+      const bfLine = document.getElementById('brandFeeLine');
+      if(brandFee > 0) {
+          bfLine.style.display = 'block';
+          document.getElementById('brandLabel').innerText = brandOpt.getAttribute('data-brand-name') + " Fees:";
+          document.getElementById('brandFee').innerText = nfd.format(brandFee);
+      } else bfLine.style.display = 'none';
+
+      document.querySelectorAll('.tax-option').forEach(opt => {
+          const isMatch = parseInt(opt.querySelector('input').value) === slab;
+          opt.classList.toggle('bg-blue-50', isMatch);
+          opt.classList.toggle('border-blue-600', isMatch);
+          opt.querySelector('.radio-custom').innerHTML = isMatch ? '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>' : '';
+      });
     }
 
-    document.getElementById('incrementWeight').addEventListener('click', () => {
-      weight = Math.min(weight + 0.5, 50);
-      document.getElementById('weightDisplay').textContent = weight;
+    const multiItemSection = document.getElementById('multiItemSection');
+    const toggleMultiBtn = document.getElementById('toggleMultiBtn');
+    const inrAmountInput = document.getElementById('inrAmount');
+
+    toggleMultiBtn.onclick = () => {
+      const isOpen = multiItemSection.classList.contains('show');
+      if(isOpen) {
+        multiItemSection.classList.remove('show');
+        toggleMultiBtn.innerText = "+ Add Multiple Items";
+        toggleMultiBtn.classList.replace('text-red-600', 'text-blue-600');
+        toggleMultiBtn.classList.replace('hover:text-red-700', 'hover:text-blue-700');
+        inrAmountInput.removeAttribute('readonly');
+        inrAmountInput.classList.remove('bg-gray-100');
+      } else {
+        multiItemSection.classList.add('show');
+        toggleMultiBtn.innerText = "✕ Close Multi-Items";
+        toggleMultiBtn.classList.replace('text-blue-600', 'text-red-600');
+        toggleMultiBtn.classList.replace('hover:text-blue-700', 'hover:text-red-700');
+        inrAmountInput.setAttribute('readonly', 'true');
+        inrAmountInput.classList.add('bg-gray-100');
+      }
+      // recalculate to flip the clipboard text correctly
       calculateTotal();
-    });
+      if(!isOpen) calculateCombinedTotal();
+    };
 
-    document.getElementById('decrementWeight').addEventListener('click', () => {
-      weight = Math.max(0.5, weight - 0.5);
-      document.getElementById('weightDisplay').textContent = weight;
-      calculateTotal();
-    });
+    document.getElementById('addItemBtn').onclick = () => {
+      const container = document.getElementById('itemsContainer');
+      const div = document.createElement('div');
+      div.className = "flex items-center gap-2";
+      div.innerHTML = `
+        <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
+        <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
+      `;
+      container.appendChild(div);
+    };
 
-    document.querySelectorAll('input, select, #inrAmount').forEach(el => {
-      el.addEventListener('input', calculateTotal);
-    });
+    window.removeRow = function(button) {
+      const container = document.getElementById('itemsContainer');
+      if(container.children.length > 1) {
+        button.parentElement.remove();
+        calculateCombinedTotal();
+      } else {
+        button.parentElement.querySelector('input').value = '';
+        calculateCombinedTotal();
+      }
+    };
 
-    document.querySelectorAll('.tax-option input').forEach(radio => {
-      radio.addEventListener('change', function() {
-        document.querySelectorAll('.tax-option').forEach(option => {
-          option.classList.remove('bg-blue-50', 'border-blue-600');
-          const radioSpan = option.querySelector('.radio-custom');
-          radioSpan.classList.remove('border-blue-600');
-          radioSpan.innerHTML = '';
-        });
-
-        if(this.checked) {
-          const parent = this.closest('.tax-option');
-          parent.classList.add('bg-blue-50', 'border-blue-600');
-          const radioSpan = parent.querySelector('.radio-custom');
-          radioSpan.classList.add('border-blue-600');
-          radioSpan.innerHTML = '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>';
-        }
+    window.calculateCombinedTotal = function() {
+      const inputs = document.querySelectorAll('.item-input');
+      let sum = 0;
+      inputs.forEach(input => {
+        sum += parseFloat(input.value) || 0;
       });
-    });
+      inrAmountInput.value = sum > 0 ? sum : '';
+      calculateTotal();
+    };
 
+    function buildUI() {
+      PRODUCT_TYPES.forEach(t => {
+          const card = document.createElement('label');
+          card.className = `product-card flex items-center p-2 rounded-lg cursor-pointer text-sm ${t.id === currentProductType ? 'selected' : 'bg-white'}`;
+          card.innerHTML = `<input type="radio" name="productType" class="sr-only"><span class="custom-radio"></span><span class="flex-1 font-medium">${t.label}</span>`;
+          card.onclick = () => { currentProductType = t.id; document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); calculateTotal(); };
+          document.getElementById('productTypeContainer').appendChild(card);
+      });
+      BRANDS.forEach(b => {
+          const o = document.createElement('option');
+          o.textContent = b.name + (b.fee > 0 ? ` (₹${b.fee})` : ' (Free)');
+          o.value = b.fee; o.setAttribute('data-brand-name', b.name);
+          if (b.forceSlab) o.setAttribute('data-force-slab', b.forceSlab);
+          document.getElementById('brand').appendChild(o);
+      });
+      Object.keys(DUTY_MAP).forEach(v => {
+          const lbl = document.createElement('label');
+          lbl.className = `tax-option flex items-center p-2 rounded-lg border cursor-pointer text-xs border-gray-200`;
+          lbl.innerHTML = `<input type="radio" name="taxSlab" value="${v}" class="sr-only"><span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center"></span><span>${v}%</span>`;
+          lbl.onclick = () => { if(taxMode === 'manual') { manualSelectedSlab = parseInt(v); calculateTotal(); } };
+          document.getElementById('taxSlabContainer').appendChild(lbl);
+      });
+    }
+
+    document.getElementById('copyBtn').onclick = function() {
+        const text = document.getElementById('shareText').innerText;
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.setAttribute('readonly', '');
+        el.style.position = 'fixed';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        el.setSelectionRange(0, 999999);
+        let success = false;
+        try { success = document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(el);
+        if (success) {
+            const btn = this;
+            const originalText = btn.innerText;
+            btn.innerText = "✅ Text Copied!";
+            btn.classList.replace('bg-blue-600', 'bg-green-600');
+            setTimeout(() => { btn.innerText = originalText; btn.classList.replace('bg-green-600', 'bg-blue-600'); }, 2000);
+        }
+    };
+
+    document.getElementById('modeToggle').onclick = (e) => {
+        if (e.target.dataset.mode) {
+            taxMode = e.target.dataset.mode;
+            document.querySelectorAll('.mode-option').forEach(o => o.classList.toggle('active', o.dataset.mode === taxMode));
+            document.getElementById('taxSlabSection').classList.toggle('tax-slab-disabled', taxMode === 'auto');
+            calculateTotal();
+        }
+    };
+
+    document.getElementById('inrAmount').oninput = calculateTotal;
+    document.getElementById('brand').onchange = calculateTotal;
+    document.getElementById('incrementWeight').onclick = () => { weight += 0.5; document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
+    document.getElementById('decrementWeight').onclick = () => { weight = Math.max(0.5, weight - 0.5); document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
+
+    buildUI();
     calculateTotal();
-  </script>
-</body>
+      </script>
+    </div>
+  </body>
 </html>
-
