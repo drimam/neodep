@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Import Cost Calculator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .breakdown-line { display: block; margin-bottom: 1.5rem; overflow: hidden; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Import Cost Calculator
+    </title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <style>
+      .breakdown-line { display: block; margin-bottom: 1.5rem; overflow: hidden; }
     .breakdown-line > span { display: inline-block; width: 50%; }
     .breakdown-line > span:last-child { text-align: right; float: right; }
     
@@ -20,76 +23,184 @@
     .product-card .custom-radio { width: 1rem; height: 1rem; border: 2px solid #d1d5db; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem; }
     .product-card.selected .custom-radio { border-color: #3b82f6; background-color: #3b82f6; }
     .product-card.selected .custom-radio::after { content: ''; width: 0.5rem; height: 0.5rem; background-color: white; border-radius: 50%; display: block; }
-  </style>
-</head>
-<body class="bg-gray-50 min-h-screen p-3 md:p-6">
-  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6 mb-8">
-    <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">Import Cost Calculator</h1>
 
-    <div class="mb-6 flex justify-between items-center">
-      <span class="text-sm font-medium text-gray-700">Tax Mode:</span>
-      <div class="mode-toggle" id="modeToggle">
-        <div class="mode-option active" data-mode="auto">Auto (Product-based)</div>
-        <div class="mode-option" data-mode="manual">Manual</div>
+    .hidden-section { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; opacity: 0; }
+    .hidden-section.show { max-height: 500px; opacity: 1; margin-bottom: 1rem; }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen p-3 md:p-6">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6 mb-8">
+      <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">
+        Import Cost Calculator
+      </h1>
+      <div class="mb-6 flex justify-between items-center">
+        <span class="text-sm font-medium text-gray-700">        Tax Mode:
+</span>
+        <div class="mode-toggle" id="modeToggle">
+          <div class="mode-option active" data-mode="auto">
+            Auto (Product-based)
+          </div>
+          <div class="mode-option" data-mode="manual">
+            Manual
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Product Category:</label>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="productTypeContainer"></div>
-    </div>
-
-    <div class="mb-6" id="taxSlabSection">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab:</label>
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="taxSlabContainer"></div>
-    </div>
-
-    <div class="space-y-4 mb-6">
-      <input type="number" id="inrAmount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter INR amount">
-      <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"></select>
-      <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">-</button>
-          <div class="flex-1 text-center"><span id="weightDisplay" class="text-lg font-bold">0.5</span> kg</div>
-          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">+</button>
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Product Category:
+        </label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="productTypeContainer">
+        </div>
       </div>
-    </div>
+      <div class="mb-6" id="taxSlabSection">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Tax Slab:
+        </label>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="taxSlabContainer">
+        </div>
+      </div>
 
-    <div class="bg-gray-50 rounded-xl p-4 space-y-0 text-sm">
-      <h3 class="text-base font-bold mb-6 border-b pb-1">*Import Cost Breakdown*</h3>
-      <div class="breakdown-line">
-      <div class="breakdown-line"><span>Item Price:</span><span>₹<span id="itemPrice">0</span></span></div>
-      
-      <div class="breakdown-line" id="brandFeeLine" style="display: none;"><span id="brandLabel"></span><span>₹<span id="brandFee">0</span></span></div>
-      
-      <div class="breakdown-line"><span>NPR Equivalent (1.6):</span><span>रु <span id="nprEquivalent">0</span></span></div>
-      
-      <div class="breakdown-line"><span>Service Charge (3%):</span><span>रु <span id="serviceCharge">0</span></span></div>
-      
-      <div class="breakdown-line"><span>Import Duty (<span id="dutyPercent">0</span>%):</span><span>रु <span id="importDuty">0</span></span></div>
-      
-      <div class="breakdown-line"><span>VAT (13%):</span><span>रु <span id="vat">0</span></span></div>
-      
-      <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold"><span>Subtotal:</span><span>रु <span id="subtotal">0</span></span></div>
-      
-      <div class="breakdown-line text-blue-600"><span>Shipping (<span id="shippingWeight">0.5</span> kg):</span><span>रु <span id="shipping">0</span></span></div>
-      
-      <div class="breakdown-line pt-4 border-t border-gray-300 font-bold text-base bg-blue-50 p-4 -m-4 mt-4"><span>*Total Payable*: </span><span> रु <span id="finalTotal">0</span></span></div>
-    </div>
-  </div>
+      <div class="mb-4">
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-sm font-medium text-gray-700">Item Pricing Mode:</label>
+          <button id="toggleMultiBtn" class="text-sm text-blue-600 font-semibold hover:text-blue-700 focus:outline-none">
+            + Add Multiple Items
+          </button>
+        </div>
+        
+        <div id="multiItemSection" class="hidden-section bg-blue-50 p-4 rounded-lg border border-blue-100">
+          <p class="text-xs text-blue-700 mb-3">Enter the individual INR price of each item. They will be added up automatically.</p>
+          <div id="itemsContainer" class="space-y-2 mb-3">
+            <div class="flex items-center gap-2">
+              <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
+              <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
+            </div>
+          </div>
+          <button id="addItemBtn" class="w-full py-2 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
+            + Add Another Item
+          </button>
+        </div>
+      </div>
 
-  <div class="max-w-2xl mx-auto bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-12">
-    <div id="shareText" class="bg-white p-4 rounded-lg border border-blue-100 text-gray-700 text-sm whitespace-pre-wrap">Dear customer,
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Total INR Amount</label>
+          <input type="number" id="inrAmount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter INR amount" />
+        </div>
+        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
+        </select>
+        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
+          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+            -
+          </button>
+          <div class="flex-1 text-center">
+            <span id="weightDisplay" class="text-lg font-bold">            0.5
+</span>
+            kg
+          </div>
+          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+            +
+          </button>
+        </div>
+      </div>
+      <div class="bg-gray-50 rounded-xl p-4 space-y-0 text-sm">
+        <h3 class="text-base font-bold mb-6 border-b pb-1">
+          *Import Cost Breakdown*
+        </h3>
+        <div class="breakdown-line">
+          <div class="breakdown-line">
+            <span>            Item Price:
+</span>
+            <span>            ₹
+            <span id="itemPrice">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line" id="brandFeeLine" style="display: none;">
+            <span id="brandLabel"></span>
+            <span>            ₹
+            <span id="brandFee">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            NPR Equivalent (1.6):
+</span>
+            <span>            रु
+            <span id="nprEquivalent">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            Service Charge (3%):
+</span>
+            <span>            रु
+            <span id="serviceCharge">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            Import Duty (
+            <span id="dutyPercent">            0
+</span>
+            %):
+</span>
+            <span>            रु
+            <span id="importDuty">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line">
+            <span>            VAT (13%):
+</span>
+            <span>            रु
+            <span id="vat">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold">
+            <span>            Subtotal:
+</span>
+            <span>            रु
+            <span id="subtotal">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line text-blue-600">
+            <span>            Shipping (
+            <span id="shippingWeight">            0.5
+</span>
+            kg):
+</span>
+            <span>            रु
+            <span id="shipping">            0
+</span>
+</span>
+          </div>
+          <div class="breakdown-line pt-4 border-t border-gray-300 font-bold text-base bg-blue-50 p-4 -m-4 mt-4">
+            <span>            *Total Payable*:
+</span>
+            <span>            रु
+            <span id="finalTotal">            0
+</span>
+</span>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-2xl mx-auto bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-12">
+        <div id="shareText" class="bg-white p-4 rounded-lg border border-blue-100 text-gray-700 text-sm whitespace-pre-wrap">Dear customer,
 After Discount Offers Applied ✅
 
-It will cost NPR. <span id="copyTotal">0</span> /- only
+It will cost NPR. <span id="copyTotal">0</span>/- only
 Including all charges and international shipping fees.
 
 *We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*</div>
-    <button id="copyBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all active:scale-95 shadow-md">Copy to Clipboard</button>
-  </div>
-
-  <script>
-    const EXCHANGE_RATE = 1.6, VAT_RATE = 0.13, SERVICE_RATE = 0.03, DUTY_MAP = { 13:0, 15:2, 18:5, 23:10, 28:15, 30:17 };
+        <button id="copyBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all active:scale-95 shadow-md">
+          Copy to Clipboard
+        </button>
+      </div>
+      <script>
+        const EXCHANGE_RATE = 1.6, VAT_RATE = 0.13, SERVICE_RATE = 0.03, DUTY_MAP = { 13:0, 15:2, 18:5, 23:10, 28:15, 30:17 };
     
     const nf = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
     const nfd = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -101,12 +212,14 @@ Including all charges and international shipping fees.
       { id: "gymSup", label: "💪 Gym Sup.", baseSlab: 23, conditional: false },
       { id: "books", label: "📚 Books", baseSlab: 13, conditional: false },
       { id: "toys", label: "🧸 Toys", baseSlab: 23, conditional: false },
-      { id: "homeProducts", label: "🏠 Home Products", baseSlab: 23, conditional: false }
+      { id: "homeProducts", label: "🏠 Home Products", baseSlab: 23, conditional: false },
+      { id: "largeItems", label: "📦Large Items", baseSlab: 28, conditional: false }
     ];
     
     const BRANDS = [
-      { name: "Amazon", fee: 10 }, { name: "Flipkart", fee: 17 }, { name: "Myntra", fee: 33 }, { name: "Ajio", fee: 58 }, 
-      { name: "Nykaa", fee: 29 }, { name: "Zara", fee: 290 }, { name: "Uniqlo", fee: 290 }, { name: "H&M", fee: 0 }, 
+      { name: "Amazon", fee: 10 }, { name: "Zero Fees", fee: 0 }, { name: "Flipkart", fee: 17 }, 
+      { name: "Myntra", fee: 33 }, { name: "Ajio", fee: 58 }, { name: "Nykaa", fee: 29 }, 
+      { name: "Zara", fee: 290 }, { name: "Uniqlo", fee: 290 }, { name: "H&M", fee: 0 }, 
       { name: "Decathlon", fee: 99 }, { name: "Meesho", fee: 0, forceSlab: 28 }, { name: "Others", fee: 99 }
     ];
 
@@ -124,7 +237,25 @@ Including all charges and international shipping fees.
       const brandFee = parseFloat(brandOpt.value) || 0;
       const forceSlab = brandOpt.getAttribute('data-force-slab') ? parseInt(brandOpt.getAttribute('data-force-slab')) : null;
 
-      let slab = forceSlab || (taxMode === "auto" ? (PRODUCT_TYPES.find(p=>p.id===currentProductType).conditional ? (inr >= 999 ? 18 : 23) : (PRODUCT_TYPES.find(p=>p.id===currentProductType).baseSlab || 23)) : manualSelectedSlab);
+      const isMultiItemOpen = document.getElementById('multiItemSection').classList.contains('show');
+
+      // Applied your custom rule here: Forces 23 if Multi-Item is open and category is clothing.
+      let slab;
+      if (forceSlab) {
+        slab = forceSlab;
+      } else if (taxMode === "auto") {
+        if (PRODUCT_TYPES.find(p=>p.id===currentProductType).conditional) {
+          if (isMultiItemOpen && currentProductType === "clothing") {
+            slab = 23; 
+          } else {
+            slab = inr >= 999 ? 18 : 23;
+          }
+        } else {
+          slab = PRODUCT_TYPES.find(p=>p.id===currentProductType).baseSlab || 23;
+        }
+      } else {
+        slab = manualSelectedSlab;
+      }
       
       const duty = (DUTY_MAP[slab] || 0) / 100;
       const npr = (inr + brandFee) * EXCHANGE_RATE;
@@ -135,7 +266,6 @@ Including all charges and international shipping fees.
       const ship = calculateShipping(weight);
       const total = subtotal + ship;
 
-      // Update UI elements
       document.getElementById('dutyPercent').innerText = DUTY_MAP[slab];
       document.getElementById('itemPrice').innerText = nfd.format(inr);
       document.getElementById('nprEquivalent').innerText = nfd.format(npr);
@@ -146,10 +276,27 @@ Including all charges and international shipping fees.
       document.getElementById('shipping').innerText = nfd.format(ship);
       document.getElementById('finalTotal').innerText = nfd.format(total);
       
-      // FIXED: Specifically updating the weight text in the breakdown list
       document.getElementById('shippingWeight').innerText = weight;
       
-      document.getElementById('copyTotal').innerText = nf.format(Math.round(total));
+      const shareTextContainer = document.getElementById('shareText');
+      
+      if (isMultiItemOpen) {
+        shareTextContainer.innerHTML = `Dear customer,
+Combined Shipping Discount Offers Applied Only For You 🫶🏻🫰🏻✅
+
+It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
+Including all charges and international shipping fees.
+
+*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
+      } else {
+        shareTextContainer.innerHTML = `Dear customer,
+After Discount Offers Applied ✅
+
+It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
+Including all charges and international shipping fees.
+
+*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
+      }
       
       const bfLine = document.getElementById('brandFeeLine');
       if(brandFee > 0) {
@@ -165,6 +312,64 @@ Including all charges and international shipping fees.
           opt.querySelector('.radio-custom').innerHTML = isMatch ? '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>' : '';
       });
     }
+
+    const multiItemSection = document.getElementById('multiItemSection');
+    const toggleMultiBtn = document.getElementById('toggleMultiBtn');
+    const inrAmountInput = document.getElementById('inrAmount');
+
+    toggleMultiBtn.onclick = () => {
+      const isOpen = multiItemSection.classList.contains('show');
+      if(isOpen) {
+        multiItemSection.classList.remove('show');
+        toggleMultiBtn.innerText = "+ Add Multiple Items";
+        toggleMultiBtn.classList.replace('text-red-600', 'text-blue-600');
+        toggleMultiBtn.classList.replace('hover:text-red-700', 'hover:text-blue-700');
+        inrAmountInput.removeAttribute('readonly');
+        inrAmountInput.classList.remove('bg-gray-100');
+      } else {
+        multiItemSection.classList.add('show');
+        toggleMultiBtn.innerText = "✕ Close Multi-Items";
+        toggleMultiBtn.classList.replace('text-blue-600', 'text-red-600');
+        toggleMultiBtn.classList.replace('hover:text-blue-700', 'hover:text-red-700');
+        inrAmountInput.setAttribute('readonly', 'true');
+        inrAmountInput.classList.add('bg-gray-100');
+      }
+      // recalculate to flip the clipboard text correctly
+      calculateTotal();
+      if(!isOpen) calculateCombinedTotal();
+    };
+
+    document.getElementById('addItemBtn').onclick = () => {
+      const container = document.getElementById('itemsContainer');
+      const div = document.createElement('div');
+      div.className = "flex items-center gap-2";
+      div.innerHTML = `
+        <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
+        <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
+      `;
+      container.appendChild(div);
+    };
+
+    window.removeRow = function(button) {
+      const container = document.getElementById('itemsContainer');
+      if(container.children.length > 1) {
+        button.parentElement.remove();
+        calculateCombinedTotal();
+      } else {
+        button.parentElement.querySelector('input').value = '';
+        calculateCombinedTotal();
+      }
+    };
+
+    window.calculateCombinedTotal = function() {
+      const inputs = document.querySelectorAll('.item-input');
+      let sum = 0;
+      inputs.forEach(input => {
+        sum += parseFloat(input.value) || 0;
+      });
+      inrAmountInput.value = sum > 0 ? sum : '';
+      calculateTotal();
+    };
 
     function buildUI() {
       PRODUCT_TYPES.forEach(t => {
@@ -228,6 +433,7 @@ Including all charges and international shipping fees.
 
     buildUI();
     calculateTotal();
-  </script>
-</body>
+      </script>
+    </div>
+  </body>
 </html>
