@@ -1,438 +1,412 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Import Cost Calculator
-    </title>
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <title>Import Cost Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .breakdown-line { display: block; margin-bottom: 1.5rem; overflow: hidden; }
-    .breakdown-line > span { display: inline-block; width: 50%; }
-    .breakdown-line > span:last-child { text-align: right; float: right; }
-    
-    .mode-toggle { background: #f3f4f6; border-radius: 2rem; padding: 2px; display: inline-flex; }
-    .mode-option { padding: 6px 16px; border-radius: 2rem; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; font-weight: 500; }
-    .mode-option.active { background: #3b82f6; color: white; }
-    .tax-slab-disabled { opacity: 0.6; pointer-events: none; }
-    
-    .product-card { cursor: pointer; transition: all 0.15s; border: 2px solid #e5e7eb; }
-    .product-card.selected { background-color: #eff6ff; border-color: #3b82f6; }
-    .product-card .custom-radio { width: 1rem; height: 1rem; border: 2px solid #d1d5db; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem; }
-    .product-card.selected .custom-radio { border-color: #3b82f6; background-color: #3b82f6; }
-    .product-card.selected .custom-radio::after { content: ''; width: 0.5rem; height: 0.5rem; background-color: white; border-radius: 50%; display: block; }
-
-    .hidden-section { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; opacity: 0; }
-    .hidden-section.show { max-height: 500px; opacity: 1; margin-bottom: 1rem; }
+      .breakdown-line > span { display: inline-block; width: 50%; }
+      .breakdown-line > span:last-child { text-align: right; float: right; }
+      .mode-toggle { background: #f3f4f6; border-radius: 2rem; padding: 2px; display: inline-flex; }
+      .mode-option { padding: 6px 16px; border-radius: 2rem; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; font-weight: 500; }
+      .mode-option.active { background: #3b82f6; color: white; }
+      .tax-slab-disabled { opacity: 0.6; pointer-events: none; }
+      .product-card { cursor: pointer; transition: all 0.15s; border: 2px solid #e5e7eb; }
+      .product-card.selected { background-color: #eff6ff; border-color: #3b82f6; }
+      .product-card .custom-radio { width: 1rem; height: 1rem; border: 2px solid #d1d5db; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem; }
+      .product-card.selected .custom-radio { border-color: #3b82f6; background-color: #3b82f6; }
+      .product-card.selected .custom-radio::after { content: ''; width: 0.5rem; height: 0.5rem; background-color: white; border-radius: 50%; display: block; }
+      .hidden-section { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; opacity: 0; }
+      .hidden-section.show { max-height: 800px; opacity: 1; margin-bottom: 1rem; }
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen p-3 md:p-6">
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6 mb-8">
-      <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">
-        Import Cost Calculator
-      </h1>
+      <h1 class="text-xl font-bold text-gray-800 mb-4 text-center">Import Cost Calculator</h1>
+      
       <div class="mb-6 flex justify-between items-center">
-        <span class="text-sm font-medium text-gray-700">        Tax Mode:
-</span>
+        <span class="text-sm font-medium text-gray-700">Tax Mode:</span>
         <div class="mode-toggle" id="modeToggle">
-          <div class="mode-option active" data-mode="auto">
-            Auto (Product-based)
-          </div>
-          <div class="mode-option" data-mode="manual">
-            Manual
-          </div>
+          <div class="mode-option active" data-mode="auto">Auto (Product-based)</div>
+          <div class="mode-option" data-mode="manual">Manual</div>
         </div>
       </div>
+
       <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Product Category:
-        </label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="productTypeContainer">
-        </div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Product Category:</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="productTypeContainer"></div>
       </div>
+
       <div class="mb-6" id="taxSlabSection">
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-          Tax Slab:
-        </label>
-        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="taxSlabContainer">
-        </div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab:</label>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="taxSlabContainer"></div>
       </div>
 
       <div class="mb-4">
         <div class="flex justify-between items-center mb-2">
           <label class="text-sm font-medium text-gray-700">Item Pricing Mode:</label>
-          <button id="toggleMultiBtn" class="text-sm text-blue-600 font-semibold hover:text-blue-700 focus:outline-none">
-            + Add Multiple Items
-          </button>
+          <button id="toggleMultiBtn" class="text-sm text-blue-600 font-semibold hover:text-blue-700 focus:outline-none">+ Add Multiple Items</button>
         </div>
         
         <div id="multiItemSection" class="hidden-section bg-blue-50 p-4 rounded-lg border border-blue-100">
-          <p class="text-xs text-blue-700 mb-3">Enter the individual INR price of each item. They will be added up automatically.</p>
+          <p class="text-xs text-blue-700 mb-3">Enter the individual INR price of each item.</p>
           <div id="itemsContainer" class="space-y-2 mb-3">
             <div class="flex items-center gap-2">
               <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
               <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
             </div>
           </div>
-          <button id="addItemBtn" class="w-full py-2 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
-            + Add Another Item
-          </button>
+          <button id="addItemBtn" class="w-full py-2 border-2 border-dashed border-blue-400 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">+ Add Another Item</button>
         </div>
       </div>
 
       <div class="space-y-4 mb-6">
-        <div>
-          <label class="block text-xs font-medium text-gray-500 mb-1">Total INR Amount</label>
-          <input type="number" id="inrAmount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter INR amount" />
-        </div>
-        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm">
-        </select>
-        <div class="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-          <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
-            -
-          </button>
-          <div class="flex-1 text-center">
-            <span id="weightDisplay" class="text-lg font-bold">            0.5
-</span>
-            kg
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Total INR Amount</label>
+            <input type="number" id="inrAmount" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter INR amount" />
           </div>
-          <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
-            +
-          </button>
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Estimated Delivery Date</label>
+            <input type="date" id="deliveryDate" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" onchange="calculateTotal()" />
+          </div>
+        </div>
+        
+        <select id="brand" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"></select>
+        
+        <div class="bg-gray-50 p-3 rounded-lg">
+          <div class="flex justify-between items-center mb-3">
+             <label class="text-xs font-medium text-gray-500">Weight (Actual vs Volumetric)</label>
+             <button id="toggleVolumetric" class="text-xs text-blue-600 font-bold">📏 Use Volumetric</button>
+          </div>
+          
+          <div class="flex items-center gap-2 mb-3">
+            <button id="decrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">-</button>
+            <div class="flex-1 text-center">
+              <span id="weightDisplay" class="text-lg font-bold">0.5</span> kg
+            </div>
+            <button id="incrementWeight" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">+</button>
+          </div>
+
+          <div id="volumetricSection" class="hidden-section border-t pt-3 mt-2">
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[10px] uppercase text-gray-400">Length (cm)</label>
+                <input type="number" id="volL" class="vol-input w-full p-1.5 border rounded text-sm" placeholder="L" oninput="calculateVolumetric()">
+              </div>
+              <div>
+                <label class="block text-[10px] uppercase text-gray-400">Width (cm)</label>
+                <input type="number" id="volW" class="vol-input w-full p-1.5 border rounded text-sm" placeholder="W" oninput="calculateVolumetric()">
+              </div>
+              <div>
+                <label class="block text-[10px] uppercase text-gray-400">Height (cm)</label>
+                <input type="number" id="volH" class="vol-input w-full p-1.5 border rounded text-sm" placeholder="H" oninput="calculateVolumetric()">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="bg-gray-50 rounded-xl p-4 space-y-0 text-sm">
-        <h3 class="text-base font-bold mb-6 border-b pb-1">
-          *Import Cost Breakdown*
-        </h3>
+        <h3 class="text-base font-bold mb-6 border-b pb-1">*Import Cost Breakdown*</h3>
         <div class="breakdown-line">
-          <div class="breakdown-line">
-            <span>            Item Price:
-</span>
-            <span>            ₹
-            <span id="itemPrice">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line" id="brandFeeLine" style="display: none;">
-            <span id="brandLabel"></span>
-            <span>            ₹
-            <span id="brandFee">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line">
-            <span>            NPR Equivalent (1.6):
-</span>
-            <span>            रु
-            <span id="nprEquivalent">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line">
-            <span>            Service Charge (3%):
-</span>
-            <span>            रु
-            <span id="serviceCharge">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line">
-            <span>            Import Duty (
-            <span id="dutyPercent">            0
-</span>
-            %):
-</span>
-            <span>            रु
-            <span id="importDuty">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line">
-            <span>            VAT (13%):
-</span>
-            <span>            रु
-            <span id="vat">            0
-</span>
-</span>
-          </div>
-          <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold">
-            <span>            Subtotal:
-</span>
-            <span>            रु
-            <span id="subtotal">            0
-</span>
-</span>
-          </div>
+          <div class="breakdown-line"><span>Item Price:</span><span>₹ <span id="itemPrice">0</span></span></div>
+          <div class="breakdown-line" id="brandFeeLine" style="display: none;"><span id="brandLabel"></span><span>₹ <span id="brandFee">0</span></span></div>
+          <div class="breakdown-line"><span>NPR Equivalent (1.6):</span><span>रु <span id="nprEquivalent">0</span></span></div>
+          <div class="breakdown-line"><span>Service Charge (3%):</span><span>रु <span id="serviceCharge">0</span></span></div>
+          <div class="breakdown-line"><span>Import Duty (<span id="dutyPercent">0</span>%):</span><span>रु <span id="importDuty">0</span></span></div>
+          <div class="breakdown-line"><span>VAT (13%):</span><span>रु <span id="vat">0</span></span></div>
+          <div class="breakdown-line pt-2 border-t border-gray-200 font-semibold"><span>Subtotal:</span><span>रु <span id="subtotal">0</span></span></div>
           <div class="breakdown-line text-blue-600">
-            <span>            Shipping (
-            <span id="shippingWeight">            0.5
-</span>
-            kg):
-</span>
-            <span>            रु
-            <span id="shipping">            0
-</span>
-</span>
+            <span id="shippingLabel">Shipping (<span id="shippingWeight">0.5</span> kg):</span>
+            <span>रु <span id="shipping">0</span></span>
           </div>
-          <div class="breakdown-line pt-4 border-t border-gray-300 font-bold text-base bg-blue-50 p-4 -m-4 mt-4">
-            <span>            *Total Payable*:
-</span>
-            <span>            रु
-            <span id="finalTotal">            0
-</span>
-</span>
-          </div>
+          <div class="breakdown-line pt-4 border-t border-gray-300 font-bold text-base bg-blue-50 p-4 -m-4 mt-4"><span>*Total Payable*:</span><span>रु <span id="finalTotal">0</span></span></div>
         </div>
       </div>
+
       <div class="max-w-2xl mx-auto bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-12">
-        <div id="shareText" class="bg-white p-4 rounded-lg border border-blue-100 text-gray-700 text-sm whitespace-pre-wrap">Dear customer,
-After Discount Offers Applied ✅
-
-It will cost NPR. <span id="copyTotal">0</span>/- only
-Including all charges and international shipping fees.
-
-*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*</div>
-        <button id="copyBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all active:scale-95 shadow-md">
-          Copy to Clipboard
-        </button>
+        <div id="shareText" class="bg-white p-4 rounded-lg border border-blue-100 text-gray-700 text-sm whitespace-pre-wrap">Loading content...</div>
+        <button id="copyBtn" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all active:scale-95 shadow-md">Copy to Clipboard</button>
       </div>
+
       <script>
         const EXCHANGE_RATE = 1.6, VAT_RATE = 0.13, SERVICE_RATE = 0.03, DUTY_MAP = { 13:0, 15:2, 18:5, 23:10, 28:15, 30:17 };
-    
-    const nf = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
-    const nfd = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const nf = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+        const nfd = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    const PRODUCT_TYPES = [
-      { id: "clothing", label: "👕 Clothing", conditional: true },
-      { id: "mobileAccessories", label: "📱 Mobile Accessories", conditional: true },
-      { id: "shoes", label: "👟 Shoes", conditional: true },
-      { id: "gymSup", label: "💪 Gym Sup.", baseSlab: 23, conditional: false },
-      { id: "books", label: "📚 Books", baseSlab: 13, conditional: false },
-      { id: "toys", label: "🧸 Toys", baseSlab: 23, conditional: false },
-      { id: "homeProducts", label: "🏠 Home Products", baseSlab: 23, conditional: false },
-      { id: "largeItems", label: "📦Large Items", baseSlab: 28, conditional: false }
-    ];
-    
-    const BRANDS = [
-      { name: "Amazon", fee: 10 }, { name: "Zero Fees", fee: 0 }, { name: "Flipkart", fee: 17 }, 
-      { name: "Myntra", fee: 33 }, { name: "Ajio", fee: 58 }, { name: "Nykaa", fee: 29 }, 
-      { name: "Zara", fee: 290 }, { name: "Uniqlo", fee: 290 }, { name: "H&M", fee: 0 }, 
-      { name: "Decathlon", fee: 99 }, { name: "Meesho", fee: 0, forceSlab: 28 }, { name: "Others", fee: 99 }
-    ];
-
-    let weight = 0.5, currentProductType = "clothing", taxMode = "auto", manualSelectedSlab = 23;
-
-    function calculateShipping(w) {
-      if (w === 0.5) return 280;
-      if (w === 1) return 390;
-      return 310 + (Math.ceil((w - 1) / 0.5) * 155);
-    }
-
-    function calculateTotal() {
-      const inr = parseFloat(document.getElementById('inrAmount').value) || 0;
-      const brandOpt = document.getElementById('brand').options[document.getElementById('brand').selectedIndex];
-      const brandFee = parseFloat(brandOpt.value) || 0;
-      const forceSlab = brandOpt.getAttribute('data-force-slab') ? parseInt(brandOpt.getAttribute('data-force-slab')) : null;
-
-      const isMultiItemOpen = document.getElementById('multiItemSection').classList.contains('show');
-
-      // Applied your custom rule here: Forces 23 if Multi-Item is open and category is clothing.
-      let slab;
-      if (forceSlab) {
-        slab = forceSlab;
-      } else if (taxMode === "auto") {
-        if (PRODUCT_TYPES.find(p=>p.id===currentProductType).conditional) {
-          if (isMultiItemOpen && currentProductType === "clothing") {
-            slab = 23; 
-          } else {
-            slab = inr >= 999 ? 18 : 23;
-          }
-        } else {
-          slab = PRODUCT_TYPES.find(p=>p.id===currentProductType).baseSlab || 23;
+        const nepaliMonths = ["Baisakh", "Jestha", "Ashad", "Shrawan", "Bhadra", "Ashwin", "Kartik", "Mangsir", "Poush", "Magh", "Falgun", "Chaitra"];
+        
+        function getNepaliMiti(adDate) {
+            const date = new Date(adDate);
+            const time = date.getTime();
+            const refDate = new Date("2024-04-13").getTime();
+            const msInDay = 24 * 60 * 60 * 1000;
+            let diffDays = Math.floor((time - refDate) / msInDay);
+            let bsYear = 2081, bsMonth = 0, bsDay = 1;
+            const yearDays = {
+                2081: [31, 31, 32, 32, 31, 30, 30, 29, 30, 29, 30, 30],
+                2082: [31, 32, 31, 32, 31, 30, 30, 30, 29, 30, 30, 30],
+                2083: [31, 31, 32, 31, 31, 31, 30, 29, 30, 30, 30, 30]
+            };
+            while (diffDays > 0) {
+                let daysInMonth = yearDays[bsYear][bsMonth];
+                if (diffDays >= daysInMonth) {
+                    diffDays -= daysInMonth; bsMonth++;
+                    if (bsMonth > 11) { bsMonth = 0; bsYear++; }
+                } else { bsDay += diffDays; diffDays = 0; }
+            }
+            while (diffDays < 0) {
+                bsMonth--;
+                if (bsMonth < 0) { bsMonth = 11; bsYear--; }
+                diffDays += yearDays[bsYear][bsMonth];
+                if (diffDays >= 0) { bsDay = 1 + diffDays; diffDays = 0; }
+            }
+            return `${getOrdinalNum(bsDay)} ${nepaliMonths[bsMonth]} ${bsYear}`;
         }
-      } else {
-        slab = manualSelectedSlab;
-      }
-      
-      const duty = (DUTY_MAP[slab] || 0) / 100;
-      const npr = (inr + brandFee) * EXCHANGE_RATE;
-      const service = npr * SERVICE_RATE;
-      const impDuty = (npr + service) * duty;
-      const vat = (npr + service) * VAT_RATE;
-      const subtotal = npr + service + impDuty + vat;
-      const ship = calculateShipping(weight);
-      const total = subtotal + ship;
 
-      document.getElementById('dutyPercent').innerText = DUTY_MAP[slab];
-      document.getElementById('itemPrice').innerText = nfd.format(inr);
-      document.getElementById('nprEquivalent').innerText = nfd.format(npr);
-      document.getElementById('serviceCharge').innerText = nfd.format(service);
-      document.getElementById('importDuty').innerText = nfd.format(impDuty);
-      document.getElementById('vat').innerText = nfd.format(vat);
-      document.getElementById('subtotal').innerText = nfd.format(subtotal);
-      document.getElementById('shipping').innerText = nfd.format(ship);
-      document.getElementById('finalTotal').innerText = nfd.format(total);
-      
-      document.getElementById('shippingWeight').innerText = weight;
-      
-      const shareTextContainer = document.getElementById('shareText');
-      
-      if (isMultiItemOpen) {
-        shareTextContainer.innerHTML = `Dear customer,
-Combined Shipping Discount Offers Applied Only For You 🫶🏻🫰🏻✅
+        const PRODUCT_TYPES = [
+          { id: "clothing", label: "👕 Clothing", conditional: true },
+          { id: "mobileAccessories", label: "📱 Mobile Accessories", conditional: true },
+          { id: "shoes", label: "👟 Shoes", conditional: true },
+          { id: "gymSup", label: "💪 Gym Sup.", baseSlab: 23, conditional: false },
+          { id: "books", label: "📚 Books", baseSlab: 13, conditional: false },
+          { id: "toys", label: "🧸 Toys", baseSlab: 23, conditional: false },
+          { id: "homeProducts", label: "🏠 Home Products", baseSlab: 23, conditional: false },
+          { id: "largeItems", label: "📦Large Items", baseSlab: 28, conditional: false }
+        ];
+        
+        const BRANDS = [
+          { name: "Amazon", fee: 10 }, { name: "Zero Fees", fee: 0 }, { name: "Flipkart", fee: 17 }, 
+          { name: "Myntra", fee: 33 }, { name: "Ajio", fee: 58 }, { name: "Nykaa", fee: 29 }, 
+          { name: "Zara", fee: 290 }, { name: "Uniqlo", fee: 290 }, { name: "H&M", fee: 0 }, 
+          { name: "Decathlon", fee: 99 }, { name: "Meesho", fee: 0, forceSlab: 28 }, { name: "Others", fee: 99 }
+        ];
 
-It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
-Including all charges and international shipping fees.
+        let weight = 0.5, volumetricWeight = 0, currentProductType = "clothing", taxMode = "auto", manualSelectedSlab = 23;
 
-*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
-      } else {
-        shareTextContainer.innerHTML = `Dear customer,
-After Discount Offers Applied ✅
-
-It will cost NPR. <span id="copyTotal">${nf.format(Math.round(total))}</span>/- only
-Including all charges and international shipping fees.
-
-*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
-      }
-      
-      const bfLine = document.getElementById('brandFeeLine');
-      if(brandFee > 0) {
-          bfLine.style.display = 'block';
-          document.getElementById('brandLabel').innerText = brandOpt.getAttribute('data-brand-name') + " Fees:";
-          document.getElementById('brandFee').innerText = nfd.format(brandFee);
-      } else bfLine.style.display = 'none';
-
-      document.querySelectorAll('.tax-option').forEach(opt => {
-          const isMatch = parseInt(opt.querySelector('input').value) === slab;
-          opt.classList.toggle('bg-blue-50', isMatch);
-          opt.classList.toggle('border-blue-600', isMatch);
-          opt.querySelector('.radio-custom').innerHTML = isMatch ? '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>' : '';
-      });
-    }
-
-    const multiItemSection = document.getElementById('multiItemSection');
-    const toggleMultiBtn = document.getElementById('toggleMultiBtn');
-    const inrAmountInput = document.getElementById('inrAmount');
-
-    toggleMultiBtn.onclick = () => {
-      const isOpen = multiItemSection.classList.contains('show');
-      if(isOpen) {
-        multiItemSection.classList.remove('show');
-        toggleMultiBtn.innerText = "+ Add Multiple Items";
-        toggleMultiBtn.classList.replace('text-red-600', 'text-blue-600');
-        toggleMultiBtn.classList.replace('hover:text-red-700', 'hover:text-blue-700');
-        inrAmountInput.removeAttribute('readonly');
-        inrAmountInput.classList.remove('bg-gray-100');
-      } else {
-        multiItemSection.classList.add('show');
-        toggleMultiBtn.innerText = "✕ Close Multi-Items";
-        toggleMultiBtn.classList.replace('text-blue-600', 'text-red-600');
-        toggleMultiBtn.classList.replace('hover:text-blue-700', 'hover:text-red-700');
-        inrAmountInput.setAttribute('readonly', 'true');
-        inrAmountInput.classList.add('bg-gray-100');
-      }
-      // recalculate to flip the clipboard text correctly
-      calculateTotal();
-      if(!isOpen) calculateCombinedTotal();
-    };
-
-    document.getElementById('addItemBtn').onclick = () => {
-      const container = document.getElementById('itemsContainer');
-      const div = document.createElement('div');
-      div.className = "flex items-center gap-2";
-      div.innerHTML = `
-        <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
-        <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
-      `;
-      container.appendChild(div);
-    };
-
-    window.removeRow = function(button) {
-      const container = document.getElementById('itemsContainer');
-      if(container.children.length > 1) {
-        button.parentElement.remove();
-        calculateCombinedTotal();
-      } else {
-        button.parentElement.querySelector('input').value = '';
-        calculateCombinedTotal();
-      }
-    };
-
-    window.calculateCombinedTotal = function() {
-      const inputs = document.querySelectorAll('.item-input');
-      let sum = 0;
-      inputs.forEach(input => {
-        sum += parseFloat(input.value) || 0;
-      });
-      inrAmountInput.value = sum > 0 ? sum : '';
-      calculateTotal();
-    };
-
-    function buildUI() {
-      PRODUCT_TYPES.forEach(t => {
-          const card = document.createElement('label');
-          card.className = `product-card flex items-center p-2 rounded-lg cursor-pointer text-sm ${t.id === currentProductType ? 'selected' : 'bg-white'}`;
-          card.innerHTML = `<input type="radio" name="productType" class="sr-only"><span class="custom-radio"></span><span class="flex-1 font-medium">${t.label}</span>`;
-          card.onclick = () => { currentProductType = t.id; document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); calculateTotal(); };
-          document.getElementById('productTypeContainer').appendChild(card);
-      });
-      BRANDS.forEach(b => {
-          const o = document.createElement('option');
-          o.textContent = b.name + (b.fee > 0 ? ` (₹${b.fee})` : ' (Free)');
-          o.value = b.fee; o.setAttribute('data-brand-name', b.name);
-          if (b.forceSlab) o.setAttribute('data-force-slab', b.forceSlab);
-          document.getElementById('brand').appendChild(o);
-      });
-      Object.keys(DUTY_MAP).forEach(v => {
-          const lbl = document.createElement('label');
-          lbl.className = `tax-option flex items-center p-2 rounded-lg border cursor-pointer text-xs border-gray-200`;
-          lbl.innerHTML = `<input type="radio" name="taxSlab" value="${v}" class="sr-only"><span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center"></span><span>${v}%</span>`;
-          lbl.onclick = () => { if(taxMode === 'manual') { manualSelectedSlab = parseInt(v); calculateTotal(); } };
-          document.getElementById('taxSlabContainer').appendChild(lbl);
-      });
-    }
-
-    document.getElementById('copyBtn').onclick = function() {
-        const text = document.getElementById('shareText').innerText;
-        const el = document.createElement('textarea');
-        el.value = text;
-        el.setAttribute('readonly', '');
-        el.style.position = 'fixed';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        el.setSelectionRange(0, 999999);
-        let success = false;
-        try { success = document.execCommand('copy'); } catch (err) {}
-        document.body.removeChild(el);
-        if (success) {
-            const btn = this;
-            const originalText = btn.innerText;
-            btn.innerText = "✅ Text Copied!";
-            btn.classList.replace('bg-blue-600', 'bg-green-600');
-            setTimeout(() => { btn.innerText = originalText; btn.classList.replace('bg-green-600', 'bg-blue-600'); }, 2000);
+        function getOrdinalNum(n) {
+          return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
         }
-    };
 
-    document.getElementById('modeToggle').onclick = (e) => {
-        if (e.target.dataset.mode) {
-            taxMode = e.target.dataset.mode;
-            document.querySelectorAll('.mode-option').forEach(o => o.classList.toggle('active', o.dataset.mode === taxMode));
-            document.getElementById('taxSlabSection').classList.toggle('tax-slab-disabled', taxMode === 'auto');
+        function formatDeliveryDate(dateString) {
+          if (!dateString) return "";
+          const date = new Date(dateString);
+          const day = getOrdinalNum(date.getDate());
+          const month = date.toLocaleString('default', { month: 'long' });
+          const year = date.getFullYear();
+          const weekday = date.toLocaleString('default', { weekday: 'long' });
+          return `${day} ${month} ${year}, ${weekday}`;
+        }
+
+        function calculateShipping(w) {
+          if (w <= 0.5) return 280;
+          if (w <= 1) return 390;
+          return 310 + (Math.ceil((w - 1) / 0.5) * 155);
+        }
+
+        function calculateVolumetric() {
+            const l = parseFloat(document.getElementById('volL').value) || 0;
+            const w = parseFloat(document.getElementById('volW').value) || 0;
+            const h = parseFloat(document.getElementById('volH').value) || 0;
+            volumetricWeight = (l * w * h) / 5000;
             calculateTotal();
         }
-    };
 
-    document.getElementById('inrAmount').oninput = calculateTotal;
-    document.getElementById('brand').onchange = calculateTotal;
-    document.getElementById('incrementWeight').onclick = () => { weight += 0.5; document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
-    document.getElementById('decrementWeight').onclick = () => { weight = Math.max(0.5, weight - 0.5); document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
+        function calculateTotal() {
+          const inr = parseFloat(document.getElementById('inrAmount').value) || 0;
+          const brandOpt = document.getElementById('brand').options[document.getElementById('brand').selectedIndex];
+          const brandFee = parseFloat(brandOpt.value) || 0;
+          const forceSlab = brandOpt.getAttribute('data-force-slab') ? parseInt(brandOpt.getAttribute('data-force-slab')) : null;
+          const selectedDate = document.getElementById('deliveryDate').value;
 
-    buildUI();
-    calculateTotal();
+          const isMultiItemOpen = document.getElementById('multiItemSection').classList.contains('show');
+          const itemCount = document.querySelectorAll('.item-input').length;
+          const isVolumetricActive = document.getElementById('volumetricSection').classList.contains('show');
+          const finalWeight = isVolumetricActive ? Math.max(weight, volumetricWeight) : weight;
+          
+          const labelSpan = document.getElementById('shippingLabel');
+          if (isVolumetricActive && volumetricWeight > weight) {
+              labelSpan.innerHTML = `Volumetric Shipping (<span id="shippingWeight">${finalWeight.toFixed(2)}</span> kg):`;
+          } else {
+              labelSpan.innerHTML = `Shipping (<span id="shippingWeight">${finalWeight.toFixed(2)}</span> kg):`;
+          }
+
+          let slab;
+          if (forceSlab) { slab = forceSlab; } 
+          else if (taxMode === "auto") {
+            if (PRODUCT_TYPES.find(p=>p.id===currentProductType).conditional) {
+              slab = (isMultiItemOpen && currentProductType === "clothing") ? 23 : (inr >= 999 ? 18 : 23);
+            } else { slab = PRODUCT_TYPES.find(p=>p.id===currentProductType).baseSlab || 23; }
+          } else { slab = manualSelectedSlab; }
+          
+          const duty = (DUTY_MAP[slab] || 0) / 100;
+          const npr = (inr + brandFee) * EXCHANGE_RATE;
+          const service = npr * SERVICE_RATE;
+          const impDuty = (npr + service) * duty;
+          const vat = (npr + service) * VAT_RATE;
+          const subtotal = npr + service + impDuty + vat;
+          const ship = calculateShipping(finalWeight);
+          const total = subtotal + ship;
+
+          document.getElementById('dutyPercent').innerText = DUTY_MAP[slab];
+          document.getElementById('itemPrice').innerText = nfd.format(inr);
+          document.getElementById('nprEquivalent').innerText = nfd.format(npr);
+          document.getElementById('serviceCharge').innerText = nfd.format(service);
+          document.getElementById('importDuty').innerText = nfd.format(impDuty);
+          document.getElementById('vat').innerText = nfd.format(vat);
+          document.getElementById('subtotal').innerText = nfd.format(subtotal);
+          document.getElementById('shipping').innerText = nfd.format(ship);
+          document.getElementById('finalTotal').innerText = nfd.format(total);
+          
+          const shareTextContainer = document.getElementById('shareText');
+          let dateSection = "";
+          if (selectedDate) {
+              dateSection = `\n📦 Estimated Delivery \n       Date : ${formatDeliveryDate(selectedDate)}\n       Miti : ${getNepaliMiti(selectedDate)}\n`;
+          }
+          
+          let headerText = isMultiItemOpen ? 
+            `Dear customer,\nCombined Shipping Discount Offers Applied Only For You 🫶🏻🫰🏻✅\n\nQuantity : ${itemCount} items` : 
+            `Dear customer,\nAfter Discount Offers Applied ✅`;
+
+          shareTextContainer.innerText = `${headerText}\n\nIt will cost NPR. ${nf.format(Math.round(total))}/- only\nIncluding all charges and international shipping fees.\n${dateSection}\n*We Provide 50% Advance & 50% Cash On Delivery Facilities 🥳🎉*`;
+          
+          const bfLine = document.getElementById('brandFeeLine');
+          if(brandFee > 0) {
+              bfLine.style.display = 'block';
+              document.getElementById('brandLabel').innerText = brandOpt.getAttribute('data-brand-name') + " Fees:";
+              document.getElementById('brandFee').innerText = nfd.format(brandFee);
+          } else bfLine.style.display = 'none';
+
+          document.querySelectorAll('.tax-option').forEach(opt => {
+              const isMatch = parseInt(opt.querySelector('input').value) === slab;
+              opt.classList.toggle('bg-blue-50', isMatch);
+              opt.classList.toggle('border-blue-600', isMatch);
+              opt.querySelector('.radio-custom').innerHTML = isMatch ? '<div class="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>' : '';
+          });
+        }
+
+        document.getElementById('toggleVolumetric').onclick = function() {
+            const sec = document.getElementById('volumetricSection');
+            const isShowing = sec.classList.contains('show');
+            if(isShowing) {
+                sec.classList.remove('show');
+                this.innerText = "📏 Use Volumetric";
+                volumetricWeight = 0;
+                document.getElementById('volL').value = '';
+                document.getElementById('volW').value = '';
+                document.getElementById('volH').value = '';
+            } else {
+                sec.classList.add('show');
+                this.innerText = "✕ Close Volumetric";
+            }
+            calculateTotal();
+        };
+
+        const multiItemSection = document.getElementById('multiItemSection');
+        const toggleMultiBtn = document.getElementById('toggleMultiBtn');
+        const inrAmountInput = document.getElementById('inrAmount');
+
+        toggleMultiBtn.onclick = () => {
+          const isOpen = multiItemSection.classList.contains('show');
+          if(isOpen) {
+            multiItemSection.classList.remove('show');
+            toggleMultiBtn.innerText = "+ Add Multiple Items";
+            toggleMultiBtn.classList.replace('text-red-600', 'text-blue-600');
+            inrAmountInput.removeAttribute('readonly');
+            inrAmountInput.classList.remove('bg-gray-100');
+          } else {
+            multiItemSection.classList.add('show');
+            toggleMultiBtn.innerText = "✕ Close Multi-Items";
+            toggleMultiBtn.classList.replace('text-blue-600', 'text-red-600');
+            inrAmountInput.setAttribute('readonly', 'true');
+            inrAmountInput.classList.add('bg-gray-100');
+          }
+          calculateTotal();
+          if(!isOpen) calculateCombinedTotal();
+        };
+
+        document.getElementById('addItemBtn').onclick = () => {
+          const container = document.getElementById('itemsContainer');
+          const div = document.createElement('div');
+          div.className = "flex items-center gap-2";
+          div.innerHTML = `
+            <input type="number" class="item-input w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-600 text-sm" placeholder="Enter item price in INR" oninput="calculateCombinedTotal()" />
+            <button class="px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 text-sm font-bold" onclick="removeRow(this)">✕</button>
+          `;
+          container.appendChild(div);
+          calculateTotal();
+        };
+
+        window.removeRow = function(button) {
+          const container = document.getElementById('itemsContainer');
+          if(container.children.length > 1) { button.parentElement.remove(); } 
+          else { button.parentElement.querySelector('input').value = ''; }
+          calculateCombinedTotal();
+        };
+
+        window.calculateCombinedTotal = function() {
+          const inputs = document.querySelectorAll('.item-input');
+          let sum = 0;
+          inputs.forEach(input => { sum += parseFloat(input.value) || 0; });
+          inrAmountInput.value = sum > 0 ? sum : '';
+          calculateTotal();
+        };
+
+        function buildUI() {
+          PRODUCT_TYPES.forEach(t => {
+              const card = document.createElement('label');
+              card.className = `product-card flex items-center p-2 rounded-lg cursor-pointer text-sm ${t.id === currentProductType ? 'selected' : 'bg-white'}`;
+              card.innerHTML = `<input type="radio" name="productType" class="sr-only"><span class="custom-radio"></span><span class="flex-1 font-medium">${t.label}</span>`;
+              card.onclick = () => { currentProductType = t.id; document.querySelectorAll('.product-card').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); calculateTotal(); };
+              document.getElementById('productTypeContainer').appendChild(card);
+          });
+          BRANDS.forEach(b => {
+              const o = document.createElement('option');
+              o.textContent = b.name + (b.fee > 0 ? ` (₹${b.fee})` : ' (Free)');
+              o.value = b.fee; o.setAttribute('data-brand-name', b.name);
+              if (b.forceSlab) o.setAttribute('data-force-slab', b.forceSlab);
+              document.getElementById('brand').appendChild(o);
+          });
+          Object.keys(DUTY_MAP).forEach(v => {
+              const lbl = document.createElement('label');
+              lbl.className = `tax-option flex items-center p-2 rounded-lg border cursor-pointer text-xs border-gray-200`;
+              lbl.innerHTML = `<input type="radio" name="taxSlab" value="${v}" class="sr-only"><span class="radio-custom w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center"></span><span>${v}%</span>`;
+              lbl.onclick = () => { if(taxMode === 'manual') { manualSelectedSlab = parseInt(v); calculateTotal(); } };
+              document.getElementById('taxSlabContainer').appendChild(lbl);
+          });
+        }
+
+        document.getElementById('copyBtn').onclick = function() {
+            const text = document.getElementById('shareText').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = this;
+                const originalText = btn.innerText;
+                btn.innerText = "✅ Text Copied!";
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                setTimeout(() => { btn.innerText = originalText; btn.classList.replace('bg-green-600', 'bg-blue-600'); }, 2000);
+            });
+        };
+
+        document.getElementById('modeToggle').onclick = (e) => {
+            if (e.target.dataset.mode) {
+                taxMode = e.target.dataset.mode;
+                document.querySelectorAll('.mode-option').forEach(o => o.classList.toggle('active', o.dataset.mode === taxMode));
+                document.getElementById('taxSlabSection').classList.toggle('tax-slab-disabled', taxMode === 'auto');
+                calculateTotal();
+            }
+        };
+
+        document.getElementById('inrAmount').oninput = calculateTotal;
+        document.getElementById('brand').onchange = calculateTotal;
+        document.getElementById('incrementWeight').onclick = () => { weight += 0.5; document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
+        document.getElementById('decrementWeight').onclick = () => { weight = Math.max(0.5, weight - 0.5); document.getElementById('weightDisplay').innerText = weight; calculateTotal(); };
+
+        buildUI();
+        calculateTotal();
       </script>
     </div>
   </body>
