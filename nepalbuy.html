@@ -1,0 +1,1450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>NepalBuys Express - Reliable Courier Service Between India & Nepal</title>
+    <meta name="description" content="Fast & secure courier services between India and Nepal. E-commerce delivery to Raxaul/Birgunj, India-bound shipments from Nepal with real-time tracking.">
+    <meta name="keywords" content="Amazon Nepal, Flipkart Nepal, Myntra Nepal, Meesho Nepal, Ajio Nepal, Nykaa Nepal, Amazon Kathmandu, Flipkart Kathmandu, India to Nepal courier, Nepal to India delivery, Raxaul pickup, Birgunj delivery, ecommerce shipping, international courier">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/MDTXnw46/Whats-App-Image-2025-05-03-at-9-33-18-PM.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1341b2;
+            --primary-light: #e8f0fe;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --success: #10b981;
+            --success-dark: #059669;
+            --bg: #f0f4ff;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --red: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 16px rgba(26,86,219,0.10), 0 2px 6px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 40px rgba(26,86,219,0.15), 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --nav-h: 64px;
+        }
+ 
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+ 
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 80px; /* for bottom nav */
+        }
+ 
+        /* ── TOP HEADER ───────────────────────── */
+        .top-header {
+            background: var(--primary);
+            color: #fff;
+            padding: 14px 16px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(26,86,219,0.25);
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-brand img {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.5);
+            object-fit: cover;
+        }
+        .header-brand-text { line-height: 1.1; }
+        .header-brand-name { font-size: 17px; font-weight: 900; letter-spacing: -0.3px; }
+        .header-brand-tag { font-size: 10px; opacity: 0.75; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        .header-wa {
+            display: flex; align-items: center; gap: 6px;
+            background: #25d366;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(37,211,102,0.4);
+        }
+        .header-wa svg { width: 16px; height: 16px; flex-shrink: 0; }
+ 
+        /* ── BOTTOM NAV ───────────────────────── */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #fff;
+            display: flex;
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        }
+        .bottom-nav a {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 10px 0 8px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .bottom-nav a svg { width: 22px; height: 22px; }
+        .bottom-nav a.active { color: var(--primary); }
+        .bottom-nav a.active svg path, .bottom-nav a.active svg circle { stroke: var(--primary); }
+ 
+        /* ── SECTIONS ─────────────────────────── */
+        .section { display: none; }
+        .section.active { display: block; }
+ 
+        /* ── HERO ─────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, #1a56db 0%, #3b82f6 60%, #60a5fa 100%);
+            padding: 28px 16px 32px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40px; right: -40px;
+            width: 180px; height: 180px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -30px;
+            width: 220px; height: 220px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(4px);
+        }
+        .hero h1 { font-size: 24px; font-weight: 900; line-height: 1.2; margin-bottom: 10px; }
+        .hero p { font-size: 14px; opacity: 0.85; line-height: 1.5; margin-bottom: 22px; }
+        .hero-btns { display: flex; gap: 10px; justify-content: center; }
+        .btn-hero-primary {
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.15s;
+        }
+        .btn-hero-primary:active { transform: scale(0.97); }
+        .btn-hero-outline {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.7);
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .btn-hero-outline:active { transform: scale(0.97); }
+ 
+        /* ── STAT STRIP ───────────────────────── */
+        .stat-strip {
+            display: flex;
+            background: #fff;
+            border-radius: var(--radius);
+            margin: -18px 16px 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 14px 8px;
+            border-right: 1px solid var(--border);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num { font-size: 18px; font-weight: 900; color: var(--primary); line-height: 1; }
+        .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; margin-top: 2px; }
+ 
+        /* ── CARD ─────────────────────────────── */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin: 12px 16px;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-header-icon {
+            width: 36px; height: 36px;
+            background: var(--primary-light);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .card-header-icon svg { width: 18px; height: 18px; color: var(--primary); }
+        .card-header-title { font-size: 15px; font-weight: 800; }
+        .card-header-sub { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .card-body { padding: 16px; }
+ 
+        /* ── FORM ELEMENTS ────────────────────── */
+        .form-group { margin-bottom: 14px; }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            color: var(--text);
+            background: #fafbff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+            background: #fff;
+        }
+        .form-input::placeholder { color: #b0bec5; font-weight: 600; }
+ 
+        /* ── URL INPUT WITH DOMAIN BADGE ─────── */
+        .url-wrapper { position: relative; }
+        .domain-badge {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border: 1px solid #c8e6c9;
+        }
+        .domain-badge.visible { display: flex; }
+        .domain-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
+        .domain-badge-text { font-size: 12px; font-weight: 700; color: #2e7d32; }
+        .domain-badge-fee { margin-left: auto; font-size: 12px; font-weight: 800; color: #1b5e20; background: #c8e6c9; border-radius: 6px; padding: 2px 8px; }
+ 
+        /* ── DELIVERY TOGGLE ─────────────────── */
+        .delivery-toggle { display: flex; gap: 8px; }
+        .delivery-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 8px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafbff;
+            position: relative;
+        }
+        .delivery-option input { position: absolute; opacity: 0; }
+        .delivery-option .d-icon { font-size: 22px; }
+        .delivery-option .d-title { font-size: 12px; font-weight: 800; text-align: center; }
+        .delivery-option .d-sub { font-size: 10px; color: var(--text-muted); text-align: center; font-weight: 600; }
+        .delivery-option.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .delivery-option.selected .d-title { color: var(--primary); }
+ 
+        /* ── PLATFORM SELECT ─────────────────── */
+        .form-select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            color: var(--text);
+            background: #fafbff;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,0.12); }
+ 
+        /* ── RESULT CARD ─────────────────────── */
+        .result-card {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            border: 1.5px solid #c7d7fa;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 14px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px dashed #d1daf0;
+        }
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: var(--text-muted); font-weight: 600; }
+        .result-value { font-weight: 700; color: var(--text); }
+        .result-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 2px;
+            margin-top: 4px;
+            border-top: 2px solid #b0c4f5;
+        }
+        .result-total-label { font-size: 15px; font-weight: 800; }
+        .result-total-value { font-size: 20px; font-weight: 900; color: var(--primary); }
+ 
+        /* ── BUTTONS ──────────────────────────── */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 14px rgba(26,86,219,0.3); }
+        .btn-success { background: #25d366; color: #fff; box-shadow: 0 4px 14px rgba(37,211,102,0.35); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-muted); }
+        .btn-whatsapp-dark { background: #075e54; color: #fff; box-shadow: 0 4px 14px rgba(7,94,84,0.3); }
+        .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+ 
+        /* ── SERVICE CARDS ────────────────────── */
+        .service-grid { padding: 0 16px 8px; display: flex; flex-direction: column; gap: 10px; }
+        .service-item {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .service-item-icon {
+            width: 52px; height: 52px;
+            background: var(--primary-light);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .service-item-icon img { width: 32px; height: 32px; object-fit: contain; }
+        .service-item-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+        .service-item-desc { font-size: 12px; color: var(--text-muted); font-weight: 600; line-height: 1.4; }
+ 
+        /* ── PLATFORM PILLS ───────────────────── */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 0 16px 16px;
+        }
+        .platform-pill {
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1.5px solid var(--border);
+        }
+        .platform-pill-name { font-size: 11px; font-weight: 800; color: var(--text); }
+        .platform-pill-fee { font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 2px; }
+ 
+        /* ── TRACK SECTION ────────────────────── */
+        .track-card {
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            color: #fff;
+            border-radius: var(--radius);
+            margin: 12px 16px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .track-title { font-size: 18px; font-weight: 900; margin-bottom: 6px; }
+        .track-sub { font-size: 12px; opacity: 0.8; margin-bottom: 16px; font-weight: 600; }
+        .track-input-wrap { display: flex; gap: 8px; }
+        .track-input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            outline: none;
+        }
+        .track-input::placeholder { color: rgba(255,255,255,0.6); }
+        .track-btn {
+            padding: 12px 16px;
+            background: #25d366;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13px;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+ 
+        /* ── CONTACT ──────────────────────────── */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .contact-item:last-child { border-bottom: none; }
+        .contact-icon {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-icon svg { width: 20px; height: 20px; }
+        .contact-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+        .contact-value { font-size: 14px; font-weight: 700; color: var(--text); }
+        .contact-value a { color: inherit; text-decoration: none; }
+ 
+        /* ── SECTION HEADING ─────────────────── */
+        .section-heading {
+            padding: 20px 16px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .section-heading h2 { font-size: 18px; font-weight: 900; }
+        .section-heading p { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+ 
+        /* ── MODAL ────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.6);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-sheet {
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            width: 100%;
+            max-width: 480px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .modal-handle {
+            width: 40px; height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 12px auto 0;
+        }
+        .modal-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-title { font-size: 17px; font-weight: 900; }
+        .modal-close {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+        .modal-body { padding: 20px; }
+ 
+        /* ── PAYMENT OPTION ITEMS ─────────────── */
+        .pay-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .pay-item img { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
+        .pay-item-icon { width: 36px; height: 36px; border-radius: 8px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .pay-item-icon svg { width: 20px; height: 20px; color: var(--primary); }
+        .pay-item-name { font-size: 14px; font-weight: 700; }
+ 
+        /* ── RETURN POLICY CONTENT ────────────── */
+        .policy-section { margin-bottom: 18px; }
+        .policy-section h4 { font-size: 14px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .policy-section p, .policy-section li { font-size: 13px; color: var(--text-muted); line-height: 1.6; font-weight: 600; }
+        .policy-section ul { padding-left: 18px; }
+        .policy-section li { margin-bottom: 4px; }
+        .highlight { background: #fef3c7; border-radius: 4px; padding: 1px 4px; }
+ 
+        /* ── ORDER YOURSELF ───────────────────── */
+        .oy-banner {
+            margin: 0 16px 4px;
+            background: linear-gradient(135deg, #075e54, #1a7a6e);
+            border-radius: var(--radius);
+            padding: 18px 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(7,94,84,0.3);
+        }
+        .oy-banner-text h3 { font-size: 15px; font-weight: 900; margin-bottom: 3px; }
+        .oy-banner-text p { font-size: 12px; opacity: 0.8; font-weight: 600; }
+        .oy-banner-arrow { font-size: 22px; opacity: 0.8; }
+ 
+        /* ── FOOTER ───────────────────────────── */
+        .footer {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 20px 16px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .footer a { color: #60a5fa; text-decoration: none; }
+        .footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 10px; flex-wrap: wrap; }
+ 
+        /* ── PLATFORM FEE TABLE ───────────────── */
+        .fee-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .fee-table th { text-align: left; padding: 8px 10px; background: var(--primary-light); color: var(--primary); font-weight: 800; font-size: 11px; text-transform: uppercase; }
+        .fee-table td { padding: 10px 10px; border-bottom: 1px solid var(--border); font-weight: 600; }
+        .fee-table tr:last-child td { border-bottom: none; }
+        .fee-badge { display: inline-block; background: #e8f0fe; color: var(--primary); border-radius: 6px; padding: 2px 8px; font-weight: 800; font-size: 12px; }
+ 
+        /* ── MAP EMBED ────────────────────────── */
+        .map-embed {
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            height: 180px;
+            margin-top: 12px;
+        }
+        .map-embed iframe { width: 100%; height: 100%; border: none; }
+ 
+        /* ── UTILITIES ────────────────────────── */
+        .hidden { display: none !important; }
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .gap-8 { gap: 8px; }
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); font-size: 12px; font-weight: 600; }
+ 
+        /* ── WHATSAPP FLOAT (mobile) ──────────── */
+        .wa-float {
+            position: fixed;
+            bottom: 90px;
+            right: 16px;
+            width: 52px; height: 52px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(37,211,102,0.5);
+            z-index: 90;
+            text-decoration: none;
+        }
+        .wa-float img { width: 30px; height: 30px; }
+ 
+        @media (min-width: 480px) {
+            body { max-width: 480px; margin: 0 auto; }
+            .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+            .wa-float { right: calc(50% - 224px); }
+        }
+    </style>
+</head>
+<body>
+ 
+<!-- ── TOP HEADER ─────────────────────────────────── -->
+<header class="top-header">
+    <div class="header-brand">
+        <img src="https://i.ibb.co/MDTXnw46/Whats-App-Image-2025-05-03-at-9-33-18-PM.jpg" alt="Logo">
+        <div class="header-brand-text">
+            <div class="header-brand-name">NepalBuys</div>
+            <div class="header-brand-tag">Express Pvt. Ltd.</div>
+        </div>
+    </div>
+    <a href="https://wa.me/919341144648" class="header-wa" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat
+    </a>
+</header>
+ 
+<!-- ── WHATSAPP FLOAT ──────────────────────────────── -->
+<a href="https://wa.me/919341144648" class="wa-float" target="_blank">
+    <img src="https://img.icons8.com/color/48/whatsapp--v1.png" alt="WhatsApp">
+</a>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- HOME SECTION                                       -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="section-home" class="section active">
+ 
+    <!-- Hero -->
+    <div class="hero">
+        <div class="hero-badge">🇮🇳 India ↔ 🇳🇵 Nepal</div>
+        <h1>Seamless Cross-Border Deliveries</h1>
+        <p>Shop from India. We deliver to your doorstep in Nepal. Fast, reliable & affordable.</p>
+        <div class="hero-btns">
+            <button class="btn-hero-primary" onclick="switchTab('calculator')">Calculate Cost</button>
+            <button class="btn-hero-outline" onclick="switchTab('contact')">Contact Us</button>
+        </div>
+    </div>
+ 
+    <!-- Stats -->
+    <div class="stat-strip">
+        <div class="stat-item">
+            <div class="stat-num">4-5</div>
+            <div class="stat-label">Days Delivery</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Platforms</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Support</div>
+        </div>
+    </div>
+ 
+    <!-- Order Yourself Banner -->
+    <div class="mt-12"></div>
+    <div class="oy-banner" onclick="openModal('orderYourselfModal')">
+        <div class="oy-banner-text">
+            <h3>Want To Order Yourself?</h3>
+            <p>Get your India delivery address instantly</p>
+        </div>
+        <div class="oy-banner-arrow">→</div>
+    </div>
+ 
+    <!-- Services -->
+    <div class="section-heading">
+        <div>
+            <h2>Our Services</h2>
+            <p>Everything you need for cross-border shopping</p>
+        </div>
+    </div>
+    <div class="service-grid">
+        <div class="service-item">
+            <div class="service-item-icon">
+                <img src="https://img.icons8.com/3d-fluency/94/shopping-cart-loaded.png" alt="E-commerce">
+            </div>
+            <div>
+                <div class="service-item-title">E-commerce Delivery</div>
+                <div class="service-item-desc">Shop from any Indian platform — Amazon, Flipkart, Myntra & more. We deliver to Raxaul or Birgunj.</div>
+            </div>
+        </div>
+        <div class="service-item">
+            <div class="service-item-icon">
+                <img src="https://img.icons8.com/?size=80&id=Ic2epsRl0qEI&format=png" alt="Courier">
+            </div>
+            <div>
+                <div class="service-item-title">Nepal to India Courier</div>
+                <div class="service-item-desc">Send parcels from Nepal to any destination in India — fast, secure, and tracked.</div>
+            </div>
+        </div>
+        <div class="service-item">
+            <div class="service-item-icon">
+                <img src="https://img.icons8.com/3d-fluency/94/package.png" alt="Tracking">
+            </div>
+            <div>
+                <div class="service-item-title">Real-Time Tracking</div>
+                <div class="service-item-desc">Monitor your shipments 24/7 and receive timely updates via WhatsApp.</div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Track Banner -->
+    <div class="track-card" style="margin-bottom:4px;">
+        <div class="track-title">📦 Track Your Shipment</div>
+        <div class="track-sub">Enter your mobile number to get an update</div>
+        <div class="track-input-wrap">
+            <input type="tel" id="trackInput" class="track-input" placeholder="Your mobile number">
+            <a id="trackBtn" href="#" target="_blank" class="track-btn">Track</a>
+        </div>
+    </div>
+ 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#" onclick="openModal('returnModal'); return false;">Return / Refund Policy</a>
+            <a href="#" onclick="switchTab('contact'); return false;">Contact</a>
+        </div>
+        <p>© 2025 NepalBuys Express Pvt. Ltd. All rights reserved</p>
+    </footer>
+ 
+</section>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CALCULATOR SECTION                                 -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="section-calculator" class="section">
+ 
+    <div class="section-heading">
+        <div>
+            <h2>Cost Calculator</h2>
+            <p>Estimate your delivery cost instantly</p>
+        </div>
+    </div>
+ 
+    <div class="card">
+        <div class="card-body">
+ 
+            <!-- Product URL -->
+            <div class="form-group">
+                <label class="form-label">Product Link</label>
+                <div class="url-wrapper">
+                    <input type="url" id="productUrl" class="form-input" placeholder="Paste product URL here (e.g. amazon.in/...)">
+                    <div class="domain-badge" id="domainBadge">
+                        <div class="domain-badge-dot"></div>
+                        <span class="domain-badge-text" id="domainName">amazon.in</span>
+                        <span class="domain-badge-fee" id="domainFee">₹15</span>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- Delivery Option -->
+            <div class="form-group">
+                <label class="form-label">Delivery Option</label>
+                <div class="delivery-toggle">
+                    <label class="delivery-option selected" id="label-selfPickup">
+                        <input type="radio" name="deliveryOption" value="selfPickup" checked>
+                        <div class="d-icon">🏪</div>
+                        <div class="d-title">Self Pickup</div>
+                        <div class="d-sub">Raxaul (+NPR 50)</div>
+                    </label>
+                    <label class="delivery-option" id="label-birgunjDelivery">
+                        <input type="radio" name="deliveryOption" value="birgunjDelivery">
+                        <div class="d-icon">🚚</div>
+                        <div class="d-title">Birgunj Delivery</div>
+                        <div class="d-sub">Home delivery</div>
+                    </label>
+                </div>
+            </div>
+ 
+            <!-- Platform Select -->
+            <div class="form-group">
+                <label class="form-label">Select Platform</label>
+                <select id="platform" class="form-select">
+                    <option value="" disabled selected>Select Company</option>
+                    <option value="15">Amazon</option>
+                    <option value="17">Flipkart</option>
+                    <option value="33">Myntra</option>
+                    <option value="49">Nykaa</option>
+                    <option value="49">Nykaa Fashion</option>
+                    <option value="99">Ajio</option>
+                    <option value="290">Zara</option>
+                    <option value="99">Decathlon</option>
+                    <option value="10">Meesho</option>
+                    <option value="49">Other...</option>
+                </select>
+            </div>
+ 
+            <!-- INR Price -->
+            <div class="form-group">
+                <label class="form-label">Product Price (INR ₹)</label>
+                <input type="number" id="inrPrice" class="form-input" placeholder="Enter price in INR" min="0" step="0.01">
+            </div>
+ 
+            <!-- Result -->
+            <div id="result" class="hidden">
+                <div class="result-card">
+                    <div class="result-row">
+                        <span class="result-label">Product Price</span>
+                        <span class="result-value" id="displayInr">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Platform & COD Fees</span>
+                        <span class="result-value" id="displayFees">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">NPR Value (×1.64)</span>
+                        <span class="result-value" id="displayNpr">—</span>
+                    </div>
+                    <div class="result-row birgunj-delivery-fee hidden">
+                        <span class="result-label">Birgunj Delivery Fee</span>
+                        <span class="result-value" id="displayDeliveryFee">—</span>
+                    </div>
+                    <div class="result-row service-charge-line">
+                        <span class="result-label">Service Charge</span>
+                        <span class="result-value" id="displayServiceCharge">NPR 50</span>
+                    </div>
+                    <div class="result-total-row">
+                        <span class="result-total-label">Total Payable</span>
+                        <span class="result-total-value" id="displayTotal">—</span>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- Confirm Button -->
+            <a id="whatsappBtn" href="javascript:void(0)" target="_blank" class="btn btn-success mt-12 hidden">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Confirm Order via WhatsApp
+            </a>
+ 
+            <!-- Payment Button -->
+            <button type="button" id="paymentMethods" class="btn btn-outline mt-8" style="font-size:13px;padding:10px;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                View Payment Options
+            </button>
+        </div>
+    </div>
+
+</section>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- TRACK SECTION                                      -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="section-track" class="section">
+    <div class="section-heading">
+        <div>
+            <h2>Track Shipment</h2>
+            <p>Get live updates on your order</p>
+        </div>
+    </div>
+    <div class="track-card">
+        <div class="track-title">📦 Where's My Package?</div>
+        <div class="track-sub">Enter your registered mobile number below</div>
+        <div class="track-input-wrap">
+            <input type="tel" id="trackInput2" class="track-input" placeholder="Your mobile number">
+            <a id="trackBtn2" href="#" target="_blank" class="track-btn">Track Now</a>
+        </div>
+    </div>
+ 
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+                <div class="card-header-title">How Tracking Works</div>
+                <div class="card-header-sub">Simple 3-step process</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;">1</div>
+                    <div><div style="font-weight:800;font-size:13px;">Place Your Order</div><div class="text-muted">Share product link via WhatsApp or calculator</div></div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;">2</div>
+                    <div><div style="font-weight:800;font-size:13px;">We Order & Receive</div><div class="text-muted">We place the order and receive it at Raxaul office</div></div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:var(--success);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;">3</div>
+                    <div><div style="font-weight:800;font-size:13px;">You Collect or Receive</div><div class="text-muted">Pickup from Raxaul or home delivery in Birgunj</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CONTACT SECTION                                    -->
+<!-- ══════════════════════════════════════════════════ -->
+<section id="section-contact" class="section">
+    <div class="section-heading">
+        <div>
+            <h2>Contact Us</h2>
+            <p>We're here to help</p>
+        </div>
+    </div>
+ 
+    <!-- India Office -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon" style="background:#fff3e0;">
+                <svg fill="none" stroke="#f59e0b" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.9-5.7a8.5 8.5 0 113.8 3.8z"/></svg>
+            </div>
+            <div>
+                <div class="card-header-title">🇮🇳 India Office — Raxaul</div>
+                <div class="card-header-sub">Bihar, India</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="contact-item">
+                <div class="contact-icon" style="background:#fff3e0;">
+                    <svg fill="none" stroke="#f59e0b" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Address</div>
+                    <div class="contact-value">Beside Indian Oil Depot, Near Railway Dhala, Custom Road, Raxaul, Bihar 845305</div>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon" style="background:#e8f5e9;">
+                    <svg fill="none" stroke="#25d366" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Phone (India)</div>
+                    <div class="contact-value"><a href="tel:+919341144648">+91 93411 44648</a></div>
+                </div>
+            </div>
+            <div class="map-embed">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.109734622923!2d85.29048531504384!3d26.84109698316325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ec3f3d0947ea3d%3A0x66221a6e5e6297b0!2sRaxaul!5e0!3m2!1sen!2sin!4v1657877612978!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Nepal Office -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-header-icon" style="background:#e8f5e9;">
+                <svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21l1.9-5.7a8.5 8.5 0 113.8 3.8z"/></svg>
+            </div>
+            <div>
+                <div class="card-header-title">🇳🇵 Nepal Office — Birgunj</div>
+                <div class="card-header-sub">Parsa, Nepal</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="contact-item">
+                <div class="contact-icon" style="background:#e8f5e9;">
+                    <svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Address</div>
+                    <div class="contact-value">Ranighat, CDO Office Road, Birgunj, Parsa 44300</div>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon" style="background:#e8f5e9;">
+                    <svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Phone (Nepal)</div>
+                    <div class="contact-value"><a href="tel:+9779829280025">+977 9829280025</a></div>
+                </div>
+            </div>
+            <div class="contact-item" style="border-bottom:none;">
+                <div class="contact-icon" style="background:#e8f0fe;">
+                    <svg fill="none" stroke="var(--primary)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value"><a href="mailto:support@nepalbuys.com">support@nepalbuys.com</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Send Message -->
+    <div class="card" style="margin-bottom:16px;">
+        <div class="card-header">
+            <div class="card-header-icon">
+                <svg fill="none" stroke="var(--primary)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </div>
+            <div>
+                <div class="card-header-title">Send a Message</div>
+                <div class="card-header-sub">We'll reply on WhatsApp</div>
+            </div>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+            <input type="text" id="contactName" class="form-input" placeholder="Your Name">
+            <input type="email" id="contactEmail" class="form-input" placeholder="Email Address">
+            <input type="tel" id="contactPhone" class="form-input" placeholder="Phone Number">
+            <textarea id="contactMsg" class="form-input" rows="3" placeholder="Your message..." style="resize:none;"></textarea>
+            <button class="btn btn-primary" onclick="sendContactWA()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Send via WhatsApp
+            </button>
+        </div>
+    </div>
+ 
+</section>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- BOTTOM NAV                                         -->
+<!-- ══════════════════════════════════════════════════ -->
+<nav class="bottom-nav">
+    <a href="#" onclick="switchTab('home'); return false;" id="nav-home" class="active">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Home
+    </a>
+    <a href="#" onclick="switchTab('calculator'); return false;" id="nav-calculator">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M8 11h8M8 15h4"/></svg>
+        Calculator
+    </a>
+    <a href="#" onclick="switchTab('track'); return false;" id="nav-track">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Track
+    </a>
+    <a href="#" onclick="switchTab('contact'); return false;" id="nav-contact">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        Contact
+    </a>
+</nav>
+ 
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODALS                                             -->
+<!-- ══════════════════════════════════════════════════ -->
+ 
+<!-- Payment Modal -->
+<div id="paymentModal" class="modal-overlay">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <span class="modal-title">💳 Payment Options</span>
+            <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align:center;margin-bottom:16px;">
+                <img src="https://i.ibb.co/C5r3zgXm/Whats-App-Image-2025-04-27-at-2-27-33-PM.jpg" alt="Payment QR Code" style="max-width:200px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                <p style="font-size:12px;color:var(--text-muted);margin-top:8px;font-weight:600;">Scan QR to pay</p>
+            </div>
+            <div class="pay-item">
+                <img src="https://cdn.esewa.com.np/ui/images/logos/esewa-icon-large.png" alt="Esewa">
+                <span class="pay-item-name">Esewa</span>
+            </div>
+            <div class="pay-item">
+                <img src="https://blog.khalti.com/wp-content/uploads/2021/02/Naya_Khalti_Logo_icon_2018.jpg" alt="Khalti" style="border-radius:50%;">
+                <span class="pay-item-name">Khalti</span>
+            </div>
+            <div class="pay-item">
+                <div class="pay-item-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                </div>
+                <span class="pay-item-name">Bank QR</span>
+            </div>
+            <div class="pay-item">
+                <div class="pay-item-icon" style="background:#e8f5e9;">
+                    <svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                </div>
+                <span class="pay-item-name">Cash at Raxaul Office</span>
+            </div>
+            <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;font-weight:600;">⏱ Delivery time: 4–5 days. We'll notify you via WhatsApp when your package arrives.</p>
+            <button class="btn btn-primary mt-12" onclick="closeModal('paymentModal')">Got it!</button>
+        </div>
+    </div>
+</div>
+ 
+<!-- Return Policy Modal -->
+<div id="returnModal" class="modal-overlay">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <span class="modal-title">📋 Return / Refund Policy</span>
+            <button class="modal-close" onclick="closeModal('returnModal')">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="policy-section">
+                <h4>🛡️ Our Commitment to Product Safety</h4>
+                <p>At NepalBuys Express, we prioritize the safety and integrity of your orders. <span class="highlight">We check and verify the product with the link you had provided, damage verification, size verification etc.</span> Our team ensures that your package is handled with care during transit and storage at our Raxaul Office.</p>
+            </div>
+            <div class="policy-section">
+                <h4>↩️ Return Eligibility</h4>
+                <p>Returns and refunds are subject to the policies of the online shopping platforms (e.g., Amazon, Flipkart, Myntra). <span class="highlight">Return / Refund Policy totally depends on the Online Shopping Companies — we're not responsible for any third-party platform decisions.</span> Please check the respective platform's return policy before placing an order.</p>
+            </div>
+            <div class="policy-section">
+                <h4>📝 Return Process</h4>
+                <ul>
+                    <li>Contact us and we will initiate a return.</li>
+                    <li>Provide the necessary details such as order ID and reason for return.</li>
+                    <li>Follow the platform's instructions for self returning the product to our Raxaul office.</li>
+                    <li>We will facilitate the return to the seller, subject to the platform's guidelines.</li>
+                </ul>
+            </div>
+            <div class="policy-section">
+                <h4>⚠️ Important Disclaimers</h4>
+                <p><span class="highlight">Exchange not allowed. Full Payment Advance Required.</span></p>
+                <ul>
+                    <li>We do not offer exchanges for any products.</li>
+                    <li>Full payment is required in advance before we process your order.</li>
+                    <li>Any damages or discrepancies must be reported within 24 hours of receiving the product at our office.</li>
+                    <li>Refunds, if applicable, will be processed by the online platform, not NepalBuys Express.</li>
+                </ul>
+            </div>
+            <div class="policy-section">
+                <h4>❓ Need Assistance?</h4>
+                <p>Contact us via WhatsApp at <a href="https://wa.me/919341144648" style="color:var(--primary);font-weight:700;">+91 9341144648</a></p>
+            </div>
+            <button class="btn btn-primary" onclick="closeModal('returnModal')">I Understand</button>
+        </div>
+    </div>
+</div>
+ 
+<!-- Order Yourself Modal -->
+<div id="orderYourselfModal" class="modal-overlay">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <span class="modal-title">📦 Get Your India Address</span>
+            <button class="modal-close" onclick="closeModal('orderYourselfModal')">✕</button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;font-weight:600;">Fill in your details and we'll generate your personal India delivery address instantly via WhatsApp.</p>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+                <input type="text" id="name" class="form-input" placeholder="Your Full Name">
+                <input type="tel" id="mobile" class="form-input" placeholder="Your Mobile Number">
+            </div>
+            <button id="generateBtn" class="btn btn-whatsapp-dark">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Get Address via WhatsApp
+            </button>
+            <p class="text-muted text-center mt-8">Your address will be sent directly to our WhatsApp for confirmation.</p>
+        </div>
+    </div>
+</div>
+ 
+<script>
+// ── DOMAIN FEE MAP ─────────────────────────────────────────
+const DOMAIN_FEES = {
+    'amazon.in':         { fee: 15,  label: 'Amazon',        platform: 'Amazon' },
+    'amazon.com':        { fee: 15,  label: 'Amazon',        platform: 'Amazon' },
+    'flipkart.com':      { fee: 17,  label: 'Flipkart',      platform: 'Flipkart' },
+    'myntra.com':        { fee: 33,  label: 'Myntra',        platform: 'Myntra' },
+    'nykaa.com':         { fee: 49,  label: 'Nykaa',         platform: 'Nykaa' },
+    'nykaafashion.com':  { fee: 49,  label: 'Nykaa Fashion', platform: 'Nykaa Fashion' },
+    'ajio.com':          { fee: 99,  label: 'Ajio',          platform: 'Ajio' },
+    'zara.in':           { fee: 290, label: 'Zara',          platform: 'Zara' },
+    'zara.com':          { fee: 290, label: 'Zara',          platform: 'Zara' },
+    'decathlon.in':      { fee: 99,  label: 'Decathlon',     platform: 'Decathlon' },
+    'meesho.com':        { fee: 10,  label: 'Meesho',        platform: 'Meesho' },
+};
+const DEFAULT_FEE = 49;
+ 
+// ── PLATFORM SELECT OPTIONS MAP ────────────────────────────
+const PLATFORM_OPTIONS = {
+    'Amazon':        15,
+    'Flipkart':      17,
+    'Myntra':        33,
+    'Nykaa':         49,
+    'Nykaa Fashion': 49,
+    'Ajio':          99,
+    'Zara':          290,
+    'Decathlon':     99,
+    'Meesho':        10,
+    'Other...':      49,
+};
+ 
+// ── REFS ───────────────────────────────────────────────────
+const platformSelect   = document.getElementById('platform');
+const inrInput         = document.getElementById('inrPrice');
+const productUrlInput  = document.getElementById('productUrl');
+const resultDiv        = document.getElementById('result');
+const whatsappBtn      = document.getElementById('whatsappBtn');
+const displayInr       = document.getElementById('displayInr');
+const displayNpr       = document.getElementById('displayNpr');
+const displayFees      = document.getElementById('displayFees');
+const displayTotal     = document.getElementById('displayTotal');
+const deliveryFeeLine  = document.querySelector('.birgunj-delivery-fee');
+const displayDeliveryFee   = document.getElementById('displayDeliveryFee');
+const serviceChargeLine    = document.querySelector('.service-charge-line');
+const displayServiceCharge = document.getElementById('displayServiceCharge');
+const domainBadge      = document.getElementById('domainBadge');
+const domainNameEl     = document.getElementById('domainName');
+const domainFeeEl      = document.getElementById('domainFee');
+const whatsappNumber   = '919341144648';
+ 
+// ── TAB NAVIGATION ─────────────────────────────────────────
+function switchTab(tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+    document.getElementById('nav-' + tab).classList.add('active');
+    window.scrollTo(0, 0);
+}
+ 
+// ── MODAL ──────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+});
+ 
+// ── DOMAIN DETECTION ──────────────────────────────────────
+function extractDomain(url) {
+    try {
+        let u = url.trim();
+        if (!u.startsWith('http')) u = 'https://' + u;
+        const hostname = new URL(u).hostname.replace(/^www\./, '').toLowerCase();
+        return hostname;
+    } catch { return null; }
+}
+ 
+function getFeeForDomain(domain) {
+    if (!domain) return { fee: DEFAULT_FEE, label: null };
+    // exact match first
+    if (DOMAIN_FEES[domain]) return DOMAIN_FEES[domain];
+    // partial match (e.g. links.flipkart.com)
+    for (const key of Object.keys(DOMAIN_FEES)) {
+        if (domain.endsWith('.' + key) || domain === key) return DOMAIN_FEES[key];
+    }
+    return { fee: DEFAULT_FEE, label: null };
+}
+ 
+function autoSetPlatformFromDomain(domainInfo) {
+    if (!domainInfo || !domainInfo.platform) return;
+    const opts = platformSelect.options;
+    for (let i = 0; i < opts.length; i++) {
+        if (opts[i].text.toLowerCase().includes(domainInfo.platform.toLowerCase())) {
+            platformSelect.selectedIndex = i;
+            return;
+        }
+    }
+}
+ 
+productUrlInput.addEventListener('input', function() {
+    const url = this.value.trim();
+    if (!url) {
+        domainBadge.classList.remove('visible');
+        calculateCost();
+        return;
+    }
+    const domain = extractDomain(url);
+    const info = getFeeForDomain(domain);
+    if (domain) {
+        domainNameEl.textContent = domain;
+        domainFeeEl.textContent = '₹' + info.fee;
+        domainBadge.classList.add('visible');
+        // auto-select platform & override fee in select
+        autoSetPlatformFromDomain(info);
+        // if domain known, override the platform select value to match
+        if (info.fee !== DEFAULT_FEE || (info.label && info.label !== null)) {
+            // set select value manually to match fee
+            setSelectByFeeAndPlatform(info);
+        }
+    } else {
+        domainBadge.classList.remove('visible');
+    }
+    calculateCost();
+});
+ 
+function setSelectByFeeAndPlatform(info) {
+    const opts = platformSelect.options;
+    for (let i = 0; i < opts.length; i++) {
+        const opt = opts[i];
+        if (info.platform && opt.text.toLowerCase().includes(info.platform.toLowerCase())) {
+            platformSelect.selectedIndex = i;
+            // ensure value matches fee
+            opt.value = info.fee;
+            return;
+        }
+    }
+}
+ 
+// ── DELIVERY OPTION TOGGLE ────────────────────────────────
+document.querySelectorAll('input[name="deliveryOption"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        document.getElementById('label-selfPickup').classList.toggle('selected', this.value === 'selfPickup');
+        document.getElementById('label-birgunjDelivery').classList.toggle('selected', this.value === 'birgunjDelivery');
+        calculateCost();
+    });
+});
+ 
+// ── CALCULATOR ────────────────────────────────────────────
+function calculateCost() {
+    const inrPrice = parseFloat(inrInput.value) || 0;
+    const productUrl = productUrlInput.value.trim();
+    const deliveryOption = document.querySelector('input[name="deliveryOption"]:checked').value;
+ 
+    // Determine platform fee: prefer domain-detected fee if URL is present
+    let platformFeeINR;
+    if (productUrl) {
+        const domain = extractDomain(productUrl);
+        platformFeeINR = getFeeForDomain(domain).fee;
+    } else {
+        platformFeeINR = parseFloat(platformSelect.value) || 0;
+    }
+ 
+    if (!productUrl || !inrPrice) {
+        resultDiv.classList.add('hidden');
+        whatsappBtn.classList.add('hidden');
+        return;
+    }
+ 
+    const exchangeRate = 1.64;
+    const totalINR = inrPrice + platformFeeINR;
+    const nprValue = Math.floor(totalINR * exchangeRate);
+    let serviceCharge = deliveryOption === 'selfPickup' ? 50 : 0;
+    let deliveryFee = 0;
+ 
+    if (deliveryOption === 'birgunjDelivery') {
+        if (inrPrice < 1600) {
+            deliveryFee = 250;
+        } else {
+            deliveryFee = Math.ceil(inrPrice * 0.10 * exchangeRate);
+        }
+        deliveryFeeLine.classList.remove('hidden');
+        displayDeliveryFee.textContent = `NPR ${deliveryFee}`;
+    } else {
+        deliveryFeeLine.classList.add('hidden');
+    }
+ 
+    displayServiceCharge.textContent = `NPR ${serviceCharge}`;
+    serviceCharge === 0
+        ? serviceChargeLine.classList.add('hidden')
+        : serviceChargeLine.classList.remove('hidden');
+ 
+    const total = nprValue + serviceCharge + deliveryFee;
+ 
+    displayInr.textContent  = `₹${inrPrice.toFixed(2)}`;
+    displayFees.textContent = `₹${platformFeeINR.toFixed(2)}`;
+    displayNpr.textContent  = `NPR ${nprValue}`;
+    displayTotal.textContent = `NPR ${total}`;
+ 
+    resultDiv.classList.remove('hidden');
+    whatsappBtn.classList.remove('hidden');
+ 
+    const platformName = productUrl
+        ? (getFeeForDomain(extractDomain(productUrl)).label || platformSelect.options[platformSelect.selectedIndex]?.text || 'Other')
+        : (platformSelect.options[platformSelect.selectedIndex]?.text || 'Other');
+ 
+    let message = `Product Link: ${productUrl}\n\nOrder Details:\n`
+        + `Platform: ${platformName}\n`
+        + `INR Price: ₹${inrPrice.toFixed(2)}\n`
+        + `Delivery Option: ${deliveryOption === 'birgunjDelivery' ? 'Birgunj Delivery' : 'Raxaul Self Pickup'}\n`;
+    if (deliveryOption === 'birgunjDelivery') {
+        message += `Delivery Fees: NPR ${deliveryFee}\n`;
+    } else {
+        message += `Service Charge: NPR 50\n`;
+    }
+    message += `Total Payable: NPR ${total}\n\nPlease confirm this order.`;
+ 
+    whatsappBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+ 
+platformSelect.addEventListener('change', calculateCost);
+inrInput.addEventListener('input', calculateCost);
+ 
+// ── PAYMENT MODAL ─────────────────────────────────────────
+document.getElementById('paymentMethods').addEventListener('click', () => openModal('paymentModal'));
+ 
+// ── TRACK ─────────────────────────────────────────────────
+function setupTrack(inputId, btnId) {
+    const inp = document.getElementById(inputId);
+    const btn = document.getElementById(btnId);
+    if (!inp || !btn) return;
+    function update() {
+        const mob = inp.value.trim();
+        const msg = `Dear *NepalBuys*\nPlease Track My Shipment, When It's Arriving.\nMy Mobile: ${mob}`;
+        btn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+    }
+    inp.addEventListener('input', update);
+    update();
+}
+setupTrack('trackInput', 'trackBtn');
+setupTrack('trackInput2', 'trackBtn2');
+ 
+// ── ORDER YOURSELF ────────────────────────────────────────
+document.getElementById('generateBtn').addEventListener('click', function() {
+    const name   = document.getElementById('name').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    if (!name)   { alert('Please enter your name'); return; }
+    if (!mobile) { alert('Please enter your mobile number'); return; }
+    const rxlNumber = Math.floor(1000 + Math.random() * 9000);
+    const address = `${name}\nRXL ${rxlNumber}, C/o. Rahul Kumar, NepalBuys Express\nNear Railway Dhala, Custom Road\nRaxaul Bazar.\nState - BIHAR\nPincode - 845305\nIndia\nMobile number: 9341144648\n\nCustomer's Mobile: ${mobile}`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(address)}`, '_blank');
+    closeModal('orderYourselfModal');
+});
+ 
+// ── CONTACT SEND ──────────────────────────────────────────
+function sendContactWA() {
+    const name  = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const phone = document.getElementById('contactPhone').value.trim();
+    const msg   = document.getElementById('contactMsg').value.trim();
+    if (!name && !msg) { alert('Please fill in at least your name and message'); return; }
+    const text = `*New Message from NepalBuys Website*\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${msg}`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+}
+ 
+// ── RETURN POLICY LINK ────────────────────────────────────
+document.getElementById('returnPolicyLink') && document.getElementById('returnPolicyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    openModal('returnModal');
+});
+</script>
+</body>
+</html>
+ 
+
