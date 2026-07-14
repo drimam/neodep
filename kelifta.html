@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INR to NPR Calculator</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --bg: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            color: var(--text-main);
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .weight-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .weight-btn {
+            background: #E5E7EB;
+            border: none;
+            padding: 12px 24px;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: background 0.2s;
+        }
+
+        .weight-btn:hover {
+            background: #D1D5DB;
+        }
+
+        .weight-display {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Currency Tabs UI */
+        .currency-tabs {
+            display: flex;
+            background: var(--bg);
+            border-radius: 8px;
+            margin-top: 24px;
+            padding: 4px;
+            display: none; /* Hidden until calculation */
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #FFFFFF;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #result {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            display: none; /* Hidden initially */
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .result-row strong {
+            color: var(--text-main);
+        }
+
+        .result-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px dashed var(--border);
+        }
+
+        .result-row.total strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-card">
+        <h2>Cost Calculator</h2>
+        
+        <form id="calculationForm" onsubmit="event.preventDefault(); window.calculate();">
+            <div class="form-group">
+                <label for="inrAmount">Enter INR Amount:</label>
+                <input type="number" id="inrAmount" name="inrAmount" min="0" step="0.01" placeholder="e.g. 1500" required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Weight (KG):</label>
+                <div class="weight-control">
+                    <button type="button" class="weight-btn" onclick="window.updateWeight(-0.5)">-</button>
+                    <span class="weight-display" id="weightDisplay">0.5 KG</span>
+                    <button type="button" class="weight-btn" onclick="window.updateWeight(0.5)">+</button>
+                </div>
+            </div>
+
+            <button type="button" class="calc-btn" onclick="window.calculate()">Calculate Total</button>
+        </form>
+
+        <div class="currency-tabs" id="currencyTabs">
+            <button class="tab-btn active" id="btn-NPR" onclick="window.setCurrency('NPR')">View in NPR</button>
+            <button class="tab-btn" id="btn-INR" onclick="window.setCurrency('INR')">View in INR</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // State Variables attached directly to the window object to prevent scoping errors
+        window.currentWeight = 0.5;
+        window.activeCurrency = 'NPR'; 
+
+        // Function to update weight
+        window.updateWeight = function(change) {
+            let newWeight = window.currentWeight + change;
+            
+            // Prevent weight from dropping below 0.5 KG
+            if (newWeight >= 0.5) {
+                window.currentWeight = newWeight;
+                document.getElementById('weightDisplay').innerText = window.currentWeight.toFixed(1) + ' KG';
+                
+                // Auto-calculate if an amount is already entered
+                if (document.getElementById('inrAmount').value !== '') {
+                    window.calculate();
+                }
+            }
+        };
+
+        // Function to switch currency tabs
+        window.setCurrency = function(currency) {
+            window.activeCurrency = currency;
+            
+            // Update button styles
+            document.getElementById('btn-NPR').classList.toggle('active', currency === 'NPR');
+            document.getElementById('btn-INR').classList.toggle('active', currency === 'INR');
+            
+            // Re-render calculation if input exists
+            if (document.getElementById('inrAmount').value !== '') {
+                window.calculate();
+            }
+        };
+
+        // Function to calculate and render the total cost
+        window.calculate = function() {
+            var inrAmount = parseFloat(document.getElementById('inrAmount').value);
+
+            if (isNaN(inrAmount)) {
+                alert('Please enter a valid number for INR Amount.');
+                return;
+            }
+
+            // 1. Calculate everything in NPR base values first
+            var conversionRate = 1.60;
+            var nprEquivalent = inrAmount * conversionRate;
+            
+            var serviceCharge = nprEquivalent * 0.03;
+            var totalWithServiceCharge = nprEquivalent + serviceCharge;
+
+            var importDuty = totalWithServiceCharge * 0.10;
+            var vat = totalWithServiceCharge * 0.13;
+            var totalWithVAT = totalWithServiceCharge + importDuty + vat;
+
+            var shippingCost = window.currentWeight === 0.5 ? 280 : (window.currentWeight * 390);
+            var grandTotal = totalWithVAT + shippingCost;
+
+            // 2. Adjust for display based on selected currency
+            var displayMultiplier = window.activeCurrency === 'NPR' ? 1 : (1 / 1.60);
+            var prefix = window.activeCurrency === 'NPR' ? 'रु. ' : '₹ ';
+
+            var dispBase = window.activeCurrency === 'NPR' ? nprEquivalent : inrAmount;
+            var dispService = serviceCharge * displayMultiplier;
+            var dispDuty = importDuty * displayMultiplier;
+            var dispVat = vat * displayMultiplier;
+            var dispShipping = shippingCost * displayMultiplier;
+            var dispGrandTotal = grandTotal * displayMultiplier;
+
+            // 3. Render Results
+            document.getElementById('currencyTabs').style.display = 'flex'; // Show tabs
+            var resultElement = document.getElementById('result');
+            resultElement.style.display = 'block'; // Show results
+            
+            resultElement.innerHTML = `
+                <div class="result-row">
+                    <span>Base Amount:</span> 
+                    <strong>${prefix}${dispBase.toFixed(2)}</strong>
+                </div>
+                <div class="result-row">
+                    <span>3% Service Charge:</span> 
+                    <strong>${prefix}${dispService.toFixed(2)}</strong>
+                </div>
+                <div class="result-row">
+                    <span>Import Duty (10%):</span> 
+                    <strong>${prefix}${dispDuty.toFixed(2)}</strong>
+                </div>
+                <div class="result-row">
+                    <span>VAT (13%):</span> 
+                    <strong>${prefix}${dispVat.toFixed(2)}</strong>
+                </div>
+                <div class="result-row" style="margin-top:12px; padding-top:12px; border-top:1px solid #E5E7EB;">
+                    <span>Int'l Shipping (${window.currentWeight.toFixed(1)} KG):</span> 
+                    <strong>${prefix}${dispShipping.toFixed(2)}</strong>
+                </div>
+                <div class="result-row total">
+                    <strong>Grand Total:</strong> 
+                    <strong>${prefix}${dispGrandTotal.toFixed(2)}</strong>
+                </div>
+            `;
+        };
+    </script>
+</body>
+</html>
